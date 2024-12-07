@@ -56,12 +56,7 @@ export function Navbar() {
                   Book
                 </span>
               </NavLink>
-              <NavLink href="#community">
-                <span className="flex items-center gap-2">
-                  <Users className="w-4 h-4" />
-                  Community
-                </span>
-              </NavLink>
+              
             </div>
 
             <div className="flex items-center gap-2">

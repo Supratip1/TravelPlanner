@@ -20,12 +20,7 @@ function App() {
         <section id="booking">
           <BookingSection />
         </section>
-        <section id="community" className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Community Section</h2>
-            <p className="text-gray-600">Coming soon...</p>
-          </div>
-        </section>
+        
       </main>
     </div>
   );

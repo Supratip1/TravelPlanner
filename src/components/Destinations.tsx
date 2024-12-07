@@ -30,7 +30,7 @@ const destinations = [
 
 export function Destinations() {
   return (
-    <section className="py-20 bg-gray-50">
+    <section id="destinations" className="py-20 bg-gray-50">
       <div className="container mx-auto px-6">
         <h2 className="text-4xl font-bold text-gray-900 mb-12">
           Popular AR Destinations
