@@ -80,7 +80,7 @@ export function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative container mx-auto px-6 py-8">
+      <div className="relative container mx-auto px-6 py-32 mt-12"> {/* Increased top margin and padding */}
         <div className="flex flex-col items-center text-center space-y-12">
           {/* Enhanced Logo */}
           <motion.div
