@@ -4,7 +4,6 @@ import { ArrowRight, Compass } from 'lucide-react';
 import { HeroLogo } from './hero/HeroLogo';
 
 export function Hero() {
-  // Function to scroll to the Destinations section
   const scrollToDestinations = () => {
     const destinationsSection = document.getElementById('destinations');
     if (destinationsSection) {
@@ -12,33 +11,36 @@ export function Hero() {
     }
   };
 
-  // Typing state
+  // State for typed text and subheading display
   const [typedText, setTypedText] = useState('');
   const [showSubheading, setShowSubheading] = useState(false);
 
+  // Heading text for typing animation
   const headingText = 'Experience Virtual Escapes';
+  const subheadingText = 'Plan with AI, see in AR.';
 
-  // Typing effect
+  // Typing animation logic for the main heading
   useEffect(() => {
     let currentIndex = 0;
-
     const typeInterval = setInterval(() => {
       if (currentIndex < headingText.length) {
-        // Append the next character
         setTypedText(headingText.slice(0, currentIndex + 1));
         currentIndex++;
       } else {
         clearInterval(typeInterval);
-        setTimeout(() => setShowSubheading(true), 300); // Show subheading after delay
+        setTimeout(() => {
+          // Show the subheading after the main heading finishes typing
+          setShowSubheading(true);
+        }, 300); // Delay before showing subheading
       }
-    }, 100); // Typing speed in ms
+    }, 100);
 
     return () => clearInterval(typeInterval);
-  }, [headingText]); // Dependency ensures the effect runs correctly
+  }, [headingText]);
 
-  // Animation variants
+  // Animation variants for the subheading
   const fadeInUp = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
   };
 
@@ -71,22 +73,27 @@ export function Hero() {
 
           {/* Hero Text */}
           <div className="space-y-8">
-            {/* Typing Animation for Heading */}
-            <h1 className="text-4xl sm:text-6xl font-bold tracking-tight whitespace-nowrap">
-              {typedText}
+            {/* Typing Animation for the Heading */}
+            <h1 className="text-4xl sm:text-6xl font-bold tracking-tight">
+              {/* Break "Escapes" to the next line on smaller screens */}
+              {typedText.split(' ').map((word, index) => (
+                <span key={index} className={`${index === 1 ? 'block sm:inline' : ''}`}>
+                  {word}{' '}
+                </span>
+              ))}
             </h1>
 
-            {/* Animate Subheading after Typing */}
+            {/* Animate Subheading after Typing is Complete */}
             <AnimatePresence>
               {showSubheading && (
                 <motion.p
-                  className="text-xl text-gray-300 max-w-2xl mx-auto"
+                  className="text-lg text-gray-300 max-w-2xl mx-auto"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ duration: 0.6, ease: 'easeOut' }}
                 >
-                  Explore destinations in immersive AR before you travel. Plan your journey with our AI-powered assistant and see the world like never before.
+                  {subheadingText}
                 </motion.p>
               )}
             </AnimatePresence>
