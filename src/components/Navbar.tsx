@@ -29,8 +29,8 @@ export function Navbar() {
     <>
       <nav className={`relative w-full z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-gray-800 backdrop-blur-md shadow-sm' // Darker, more professional background with subtle shadow
-          : 'bg-gray-900 backdrop-blur-sm'
+          ? 'bg-purple-800 backdrop-blur-md shadow-sm' // Darker, more professional background with subtle shadow
+          : 'bg-purple-900 backdrop-blur-sm'
       }`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-14"> {/* Reduced height */}

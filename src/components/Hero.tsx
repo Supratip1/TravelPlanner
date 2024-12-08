@@ -7,20 +7,11 @@ import { Destinations } from './Destinations'; // Import the Destinations compon
 export function Hero() {
   const [typedText, setTypedText] = useState('');
   const [showSubheading, setShowSubheading] = useState(false);
-  const [heroHeight, setHeroHeight] = useState('100vh');
-
   const heroRef = useRef(null);
 
   // Heading and subheading text
   const headingText = 'Experience Virtual Escapes';
   const subheadingText = 'Plan with AI, see in AR.';
-
-  // Set the hero card height dynamically
-  useEffect(() => {
-    if (heroRef.current) {
-      setHeroHeight(`${heroRef.current.clientHeight}px`);
-    }
-  }, []); // Removed `tilt` dependency
 
   // Typing animation for the heading
   useEffect(() => {
@@ -41,15 +32,6 @@ export function Hero() {
   }, [headingText]);
 
   // Scroll and button click handlers
-  useEffect(() => {
-    const handleScroll = () => {
-      // Removed `tilt` logic
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const scrollToDestinations = () => {
     const destinationsSection = document.getElementById('destinations');
     if (destinationsSection) {
@@ -65,17 +47,10 @@ export function Hero() {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen py-0">
-      {/* Full-Screen Hero Section */}
+      {/* Hero Section */}
       <motion.div
         ref={heroRef}
-        className="relative w-full h-screen md:h-auto max-w-full md:max-w-sm bg-gradient-to-br from-indigo-900 via-purple-900 to-violet-900 text-white overflow-hidden"
-        style={{
-          height: '100vh', // Removed `tilt` conditional style
-          overflow: 'hidden',
-          borderRadius: '0', // Removed `tilt` conditional style
-          boxShadow: 'none', // Removed `tilt` conditional style
-          margin: '0',
-        }}
+        className="relative w-full md:w-[350px] min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-violet-900 text-white overflow-hidden"
       >
         {/* Background pattern */}
         <div className="absolute inset-0">
@@ -84,8 +59,8 @@ export function Hero() {
         </div>
 
         {/* Content */}
-        <div className="relative container mx-auto px-6 py-32 mt-12">
-          <div className="flex flex-col items-center text-center space-y-12">
+        <div className="relative container mx-auto px-6 py-20 mt-6">
+          <div className="flex flex-col items-center text-center space-y-8">
             {/* Enhanced Logo */}
             <motion.div
               className="relative"
@@ -98,7 +73,7 @@ export function Hero() {
             </motion.div>
 
             {/* Hero Text */}
-            <div className="space-y-8">
+            <div className="space-y-6">
               {/* Typing Animation for the Heading */}
               <motion.h1
                 className="text-4xl sm:text-6xl font-bold tracking-tight"
@@ -134,17 +109,18 @@ export function Hero() {
               animate="visible"
               variants={fadeInUp}
             >
+               <motion.button
+              className="group flex items-center gap-2 bg-white text-purple-900 px-8 py-4 rounded-full font-semibold hover:bg-opacity-90 transition-all"
+              onClick={scrollToDestinations}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Start Exploring
+              <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+            </motion.button>
               <motion.button
                 className="group flex items-center gap-2 bg-white text-purple-900 px-8 py-4 rounded-full font-semibold hover:bg-opacity-90 transition-all"
-                onClick={scrollToDestinations}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Start Exploring
-                <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-              </motion.button>
-              <motion.button
-                className="group flex items-center gap-2 border border-white/30 bg-white/10 backdrop-blur-sm px-8 py-4 rounded-full font-semibold hover:bg-white/20 transition-all"
+                //onClick={scrollToDestinations}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -160,7 +136,7 @@ export function Hero() {
       </motion.div>
 
       {/* Destinations Section */}
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 min-h-screen overflow-y-auto bg-gray-50">
         <Destinations />
       </div>
     </div>

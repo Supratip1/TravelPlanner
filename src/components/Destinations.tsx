@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Star, Users } from 'lucide-react';
@@ -57,35 +58,34 @@ export function Destinations() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const section = document.getElementById('destinations');
-      if (section) {
-        const sectionTop = section.getBoundingClientRect().top;
-        const windowHeight = window.innerHeight;
-        if (sectionTop < windowHeight * 0.8) {
-          setIsVisible(true);
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    setIsVisible(true); // Trigger visibility when component loads
   }, []);
 
   return (
-    <section
+    <motion.section
       id="destinations"
-      className="py-20 bg-gray-50"
+      className="pt-8 pb-16 bg-gray-50 overflow-hidden min-h-screen flex flex-col items-center"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: isVisible ? 1 : 0 }}
+      transition={{ duration: 1, ease: 'easeOut' }}
     >
-      <div className="container mx-auto px-6">
+      {/* Centered Heading */}
+      <div className="mb-8 text-center">
         <motion.h2
-          className="text-4xl font-bold text-gray-900 mb-8" // Adjusted margin for heading
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="text-4xl md:text-5xl font-bold text-purple-700 font-serif tracking-wide"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
         >
-          Popular AR Destinations
+          Discover Amazing Destinations
         </motion.h2>
+        <p className="mt-4 text-gray-600 text-lg">
+          Explore the world’s best places with immersive AR experiences.
+        </p>
+      </div>
+
+      {/* Destination Cards */}
+      <div className="container mx-auto px-6">
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           initial={{ opacity: 0 }}
@@ -99,12 +99,17 @@ export function Destinations() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: 'easeOut', delay: index * 0.1 }}
+              whileHover={{ scale: 1.05, rotate: 2 }}
+              whileTap={{ scale: 0.95 }}
             >
               <div className="relative h-64 overflow-hidden">
-                <img 
-                  src={dest.image} 
+                <motion.img
+                  src={dest.image}
                   alt={dest.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  initial={{ scale: 1 }}
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.3 }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute bottom-4 left-4 text-white">
@@ -125,14 +130,19 @@ export function Destinations() {
                     <span>{dest.arExperiences} AR Experiences</span>
                   </div>
                 </div>
-                <button className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors">
+                <motion.button
+                  className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                >
                   Preview in AR
-                </button>
+                </motion.button>
               </div>
             </motion.div>
           ))}
         </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }

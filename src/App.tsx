@@ -8,16 +8,17 @@ import { BookingSection } from './components/booking/BookingSection';
 function App() {
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
+      <Navbar/>
       <main>
         <Hero />
         
-        <section id="plan-trip">
-          <ItineraryPlanner />
-        </section>
-        <section id="booking">
-          <BookingSection />
-        </section>
+        {/* <section id="plan-trip">
+  <ItineraryPlanner />
+</section>
+<section id="booking">
+  <BookingSection />
+</section> */}
+
         
       </main>
     </div>
