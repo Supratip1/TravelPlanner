@@ -5,7 +5,7 @@ declare module '*.mp4' {
 }
 
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 import { MapPin, Star, Users } from 'lucide-react';
 
 // Import video files
@@ -20,7 +20,7 @@ const destinations = [
   {
     id: 1,
     title: "Tokyo, Japan",
-    video: TokyoVideo, // Use imported variable
+    video: TokyoVideo,
     rating: 4.9,
     reviews: 2841,
     arExperiences: 42,
@@ -69,10 +69,45 @@ const destinations = [
 
 export function Destinations() {
   const [isVisible, setIsVisible] = useState(false);
+  const headingControls = useAnimation();
+  const subheadingControls = useAnimation();
+  const cardControls = destinations.map(() => useAnimation()); // Create an animation control for each card
 
   useEffect(() => {
+    const sequence = async () => {
+      // Animate heading
+      await headingControls.start({ opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } });
+      playSound(); // Play sound for heading
+  
+      // Animate subheading
+      await subheadingControls.start({ opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut', delay: 0.2 } });
+      playSound(); // Play sound for subheading
+  
+      // Animate cards one by one with shorter delays
+      for (let i = 0; i < destinations.length; i++) {
+        // Reduce the delay (e.g., 150ms delay between each card)
+        await new Promise((resolve) => setTimeout(resolve, i * 150)); // Adjusted delay
+        await cardControls[i].start({ opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } });
+        playPopSound(); // Play pop sound for each card
+      }
+    };
+  
+    sequence();
     setIsVisible(true);
-  }, []);
+  }, [headingControls, subheadingControls, cardControls]);
+  
+
+  // Function to play a simple sound effect for heading and subheading
+  const playSound = () => {
+    const audio = new Audio('https://www.soundjay.com/button/beep-07.wav'); // Simple beep sound
+    audio.play();
+  };
+
+  // Function to play a "pop" sound effect for the cards
+  const playPopSound = () => {
+    const audio = new Audio('https://www.soundjay.com/button/pop-03.wav'); // Simple pop sound
+    audio.play();
+  };
 
   return (
     <motion.section
@@ -83,37 +118,36 @@ export function Destinations() {
       transition={{ duration: 1, ease: 'easeOut' }}
     >
       {/* Centered Heading */}
-      <div className="mb-8 text-center">
+      <motion.div
+        className="mb-8 text-center"
+        initial={{ opacity: 0, y: -20 }}
+        animate={headingControls}
+      >
         <motion.h2
-          className="text-4xl md:text-5xl font-bold text-purple-700 font-serif tracking-wide"
+          className="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight transform hover:scale-105 hover:rotate-2 transition-transform duration-300"
           initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          animate={headingControls}
         >
           Discover Amazing Destinations
         </motion.h2>
-        <p className="mt-4 text-gray-600 text-lg">
+        <motion.p
+          className="mt-4 text-gray-500 text-lg md:text-xl font-medium tracking-normal transform hover:translate-y-1 transition-transform duration-300"
+          initial={{ opacity: 0, y: 20 }}
+          animate={subheadingControls}
+        >
           Explore the world’s best places with immersive AR experiences.
-        </p>
-      </div>
+        </motion.p>
+      </motion.div>
 
       {/* Destination Cards */}
-      <div className="container mx-auto px-6">
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isVisible ? 1 : 0 }}
-          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}
-        >
+      <motion.div className="container mx-auto px-6">
+        <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {destinations.map((dest, index) => (
             <motion.div
               key={dest.id}
-              className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+              className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow transform hover:scale-105 hover:rotate-1"
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: 'easeOut', delay: index * 0.1 }}
-              whileHover={{ scale: 1.05, rotate: 2 }}
-              whileTap={{ scale: 0.95 }}
+              animate={cardControls[index]}
             >
               <div className="relative h-64 overflow-hidden">
                 <video
@@ -156,7 +190,7 @@ export function Destinations() {
             </motion.div>
           ))}
         </motion.div>
-      </div>
+      </motion.div>
     </motion.section>
   );
 }
