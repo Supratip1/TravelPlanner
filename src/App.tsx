@@ -11,9 +11,7 @@ function App() {
       <Navbar />
       <main>
         <Hero />
-        <section id="destinations">
-          <Destinations />
-        </section>
+        
         <section id="plan-trip">
           <ItineraryPlanner />
         </section>

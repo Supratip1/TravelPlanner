@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Search, User, Menu, CalendarRange, Map, Users, Plane } from 'lucide-react';
+import { Menu, CalendarRange, Map, Plane } from 'lucide-react';
 import { Logo } from './navbar/Logo';
 import { NavLink } from './navbar/NavLink';
-import { NavButton } from './navbar/NavButton';
 import { MobileNav } from './navbar/MobileNav';
 
 export function Navbar() {
@@ -28,52 +27,43 @@ export function Navbar() {
 
   return (
     <>
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${
+      <nav className={`relative w-full z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-gray-900/90 backdrop-blur-md shadow-lg shadow-purple-900/20' 
-          : 'bg-gray-900/70 backdrop-blur-sm'
+          ? 'bg-gray-800 backdrop-blur-md shadow-sm' // Darker, more professional background with subtle shadow
+          : 'bg-gray-900 backdrop-blur-sm'
       }`}>
-        <div className="container mx-auto px-6">
-          <div className="flex items-center justify-between h-20">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-14"> {/* Reduced height */}
             <Logo />
-            
-            <div className="hidden md:flex items-center gap-8">
+
+            <div className="hidden md:flex items-center gap-6 ml-auto">
               <NavLink href="#destinations">
-                <span className="flex items-center gap-2">
-                  <Map className="w-4 h-4" />
+                <span className="flex items-center gap-2 text-sm text-white"> {/* Subtle text color */}
+                  <Map className="w-4 h-4 text-gray-400" /> {/* Lighter icon color */}
                   Destinations
                 </span>
               </NavLink>
               <NavLink href="#plan-trip">
-                <span className="flex items-center gap-2">
-                  <CalendarRange className="w-4 h-4" />
+                <span className="flex items-center gap-2 text-sm text-white">
+                  <CalendarRange className="w-4 h-4 text-gray-400" />
                   Plan Trip
                 </span>
               </NavLink>
               <NavLink href="#booking">
-                <span className="flex items-center gap-2">
-                  <Plane className="w-4 h-4" />
+                <span className="flex items-center gap-2 text-sm text-white">
+                  <Plane className="w-4 h-4 text-gray-400" />
                   Book
                 </span>
               </NavLink>
-              
             </div>
 
-            <div className="flex items-center gap-2">
-              <div className={`hidden md:flex items-center gap-2 ${
-                isScrolled ? 'bg-gray-800/80' : 'bg-gray-800/60'
-              } rounded-full px-3 py-2 backdrop-blur-sm`}>
-                <NavButton icon={Search} label="Search" />
-                <NavButton icon={User} label="Profile" />
-              </div>
-              <button 
-                className="md:hidden relative p-2 text-white/80 hover:text-white transition-colors"
-                onClick={() => setIsMobileNavOpen(true)}
-                aria-label="Open menu"
-              >
-                <Menu className="w-5 h-5" />
-              </button>
-            </div>
+            <button 
+              className="md:hidden relative p-2 text-white hover:text-gray-400 transition-colors"
+              onClick={() => setIsMobileNavOpen(true)}
+              aria-label="Open menu"
+            >
+              <Menu className="w-5 h-5 text-white" />
+            </button>
           </div>
         </div>
       </nav>
