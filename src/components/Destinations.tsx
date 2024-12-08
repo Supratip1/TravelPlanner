@@ -1,9 +1,3 @@
-// Declare modules for video files
-declare module '*.mp4' {
-  const value: string;
-  export default value;
-}
-
 import React, { useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { MapPin, Star, Users } from 'lucide-react';
@@ -76,17 +70,16 @@ export function Destinations() {
   useEffect(() => {
     const sequence = async () => {
       // Animate heading
-      await headingControls.start({ opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } });
+      await headingControls.start({ opacity: 1, y: 0, rotateX: 10, transition: { duration: 0.8, ease: 'easeOut' } });
       playSound(); // Play sound for heading
   
       // Animate subheading
-      await subheadingControls.start({ opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut', delay: 0.2 } });
+      await subheadingControls.start({ opacity: 1, y: 0, rotateX: 5, transition: { duration: 0.5, ease: 'easeOut', delay: 0.2 } });
       playSound(); // Play sound for subheading
   
       // Animate cards one by one with shorter delays
       for (let i = 0; i < destinations.length; i++) {
-        // Reduce the delay (e.g., 150ms delay between each card)
-        await new Promise((resolve) => setTimeout(resolve, i * 150)); // Adjusted delay
+        await new Promise((resolve) => setTimeout(resolve, i * 150));
         await cardControls[i].start({ opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } });
         playPopSound(); // Play pop sound for each card
       }
@@ -95,7 +88,6 @@ export function Destinations() {
     sequence();
     setIsVisible(true);
   }, [headingControls, subheadingControls, cardControls]);
-  
 
   // Function to play a simple sound effect for heading and subheading
   const playSound = () => {
@@ -125,6 +117,9 @@ export function Destinations() {
       >
         <motion.h2
           className="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight transform hover:scale-105 hover:rotate-2 transition-transform duration-300"
+          style={{
+            textShadow: '2px 2px 8px rgba(0, 0, 0, 0.3)',
+          }}
           initial={{ opacity: 0, y: -20 }}
           animate={headingControls}
         >
@@ -132,6 +127,9 @@ export function Destinations() {
         </motion.h2>
         <motion.p
           className="mt-4 text-gray-500 text-lg md:text-xl font-medium tracking-normal transform hover:translate-y-1 transition-transform duration-300"
+          style={{
+            textShadow: '1px 1px 4px rgba(0, 0, 0, 0.1)',
+          }}
           initial={{ opacity: 0, y: 20 }}
           animate={subheadingControls}
         >

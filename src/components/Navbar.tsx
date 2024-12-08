@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, CalendarRange, Map, Plane, Music, Play, Pause } from 'lucide-react'; // Import icons
+import { Menu, CalendarRange, Map, Plane, Play, Pause } from 'lucide-react'; // Import icons
 import { Logo } from './navbar/Logo';
 import { NavLink } from './navbar/NavLink';
 import { MobileNav } from './navbar/MobileNav';
@@ -8,7 +8,7 @@ import backgroundMusic from '../sound/bensound-sunny.mp3'; // Adjust path as nee
 export function Navbar(): JSX.Element {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState<boolean>(false);
-  const [isPlaying, setIsPlaying] = useState<boolean>(true); // Default to playing
+  const [isPlaying, setIsPlaying] = useState<boolean>(false); // Initially false to not auto-play
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -20,17 +20,16 @@ export function Navbar(): JSX.Element {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Play or pause audio based on `isPlaying` state
   useEffect(() => {
     if (audioRef.current) {
-      isPlaying ? audioRef.current.play() : audioRef.current.pause();
+      if (isPlaying) {
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+      }
     }
   }, [isPlaying]);
-
-  useEffect(() => {
-    if (audioRef.current && isPlaying) {
-      audioRef.current.play(); // Auto-play on load
-    }
-  }, []);
 
   return (
     <>
@@ -38,7 +37,6 @@ export function Navbar(): JSX.Element {
       <audio
         ref={audioRef}
         src={backgroundMusic}
-        autoPlay
         loop
         muted={false}
         className="hidden"
