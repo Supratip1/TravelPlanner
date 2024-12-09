@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import Slider from 'react-slick';
-import { MapPin, Star, Users } from 'lucide-react';
 import { Settings } from 'react-slick';
 
-// Type for the country data
-interface Country {
+interface Destination {
   id: number;
   name: string;
-  videos: string[]; // Array of video URLs or file paths for cities
+  images: string[];
+  placeNames: string[];
 }
 
-// Sample data for countries and cities
-const countries: Country[] = [
+// Sample data for countries and their most visited places with images
+const countries: Destination[] = [
   {
     id: 1,
     name: 'Japan',
-    videos: [
+    images: [
       'https://via.placeholder.com/640x360?text=Tokyo',
       'https://via.placeholder.com/640x360?text=Kyoto',
       'https://via.placeholder.com/640x360?text=Osaka',
@@ -24,11 +23,12 @@ const countries: Country[] = [
       'https://via.placeholder.com/640x360?text=Fukuoka',
       'https://via.placeholder.com/640x360?text=Hokkaido',
     ],
+    placeNames: ['Tokyo', 'Kyoto', 'Osaka', 'Hiroshima', 'Fukuoka', 'Hokkaido'],
   },
   {
     id: 2,
     name: 'Greece',
-    videos: [
+    images: [
       'https://via.placeholder.com/640x360?text=Athens',
       'https://via.placeholder.com/640x360?text=Santorini',
       'https://via.placeholder.com/640x360?text=Mykonos',
@@ -36,11 +36,12 @@ const countries: Country[] = [
       'https://via.placeholder.com/640x360?text=Rhodes',
       'https://via.placeholder.com/640x360?text=Thessaloniki',
     ],
+    placeNames: ['Athens', 'Santorini', 'Mykonos', 'Crete', 'Rhodes', 'Thessaloniki'],
   },
   {
     id: 3,
     name: 'Indonesia',
-    videos: [
+    images: [
       'https://via.placeholder.com/640x360?text=Bali',
       'https://via.placeholder.com/640x360?text=Jakarta',
       'https://via.placeholder.com/640x360?text=Yogyakarta',
@@ -48,11 +49,12 @@ const countries: Country[] = [
       'https://via.placeholder.com/640x360?text=Bandung',
       'https://via.placeholder.com/640x360?text=Lombok',
     ],
+    placeNames: ['Bali', 'Jakarta', 'Yogyakarta', 'Surabaya', 'Bandung', 'Lombok'],
   },
   {
     id: 4,
     name: 'USA',
-    videos: [
+    images: [
       'https://via.placeholder.com/640x360?text=New York',
       'https://via.placeholder.com/640x360?text=Los Angeles',
       'https://via.placeholder.com/640x360?text=Las Vegas',
@@ -60,30 +62,26 @@ const countries: Country[] = [
       'https://via.placeholder.com/640x360?text=Miami',
       'https://via.placeholder.com/640x360?text=Orlando',
     ],
+    placeNames: ['New York', 'Los Angeles', 'Las Vegas', 'San Francisco', 'Miami', 'Orlando'],
   },
+];
+
+// Sample data for popular places in India
+const indiaPlaces: Destination[] = [
   {
-    id: 5,
-    name: 'UAE',
-    videos: [
-      'https://via.placeholder.com/640x360?text=Dubai',
-      'https://via.placeholder.com/640x360?text=Abu Dhabi',
-      'https://via.placeholder.com/640x360?text=Sharjah',
-      'https://via.placeholder.com/640x360?text=Fujairah',
-      'https://via.placeholder.com/640x360?text=Ajman',
-      'https://via.placeholder.com/640x360?text=Ras Al Khaimah',
+    id: 7,
+    name: 'India',
+    images: [
+      'https://plus.unsplash.com/premium_photo-1697729690458-2d64ca777c04?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8U2hpbWxhfGVufDB8fDB8fHww',
+      'https://cdn.pixabay.com/photo/2024/07/20/15/52/mountains-8908538_640.jpg',
+      'https://cdn.pixabay.com/photo/2020/01/20/15/47/nature-4780643_640.jpg',
+      'https://via.placeholder.com/640x360?text=Alleppey',
+      'https://cdn.pixabay.com/photo/2020/01/16/04/52/munnar-4769654_1280.jpg',
+      'https://cdn.pixabay.com/photo/2021/04/06/11/22/hawa-mahal-6156123_1280.jpg',
+      'https://cdn.pixabay.com/photo/2017/06/04/18/00/varanasi-2371751_640.jpg',
+      'https://via.placeholder.com/640x360?text=Andaman',
     ],
-  },
-  {
-    id: 6,
-    name: 'Singapore',
-    videos: [
-      'https://via.placeholder.com/640x360?text=Orchard Road',
-      'https://via.placeholder.com/640x360?text=Marina Bay',
-      'https://via.placeholder.com/640x360?text=Sentosa',
-      'https://via.placeholder.com/640x360?text=Little India',
-      'https://via.placeholder.com/640x360?text=Chinatown',
-      'https://via.placeholder.com/640x360?text=Bugis',
-    ],
+    placeNames: ['Shimla', 'Manali', 'Goa', 'Alleppey', 'Munnar', 'Jaipur', 'Varanasi', 'Andaman'],
   },
 ];
 
@@ -91,6 +89,21 @@ export function Destinations() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const headingControls = useAnimation();
   const subheadingControls = useAnimation();
+  const [mainCarouselIndex, setMainCarouselIndex] = useState<number>(0);
+  const mainCarouselRef = React.useRef<Slider>(null);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (mainCarouselRef.current) {
+        const totalSlides = countries.length + indiaPlaces.length;
+        const nextIndex = (mainCarouselIndex + 1) % totalSlides;
+        setMainCarouselIndex(nextIndex);
+        mainCarouselRef.current.slickGoTo(nextIndex);
+      }
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [mainCarouselIndex]);
 
   useEffect(() => {
     const sequence = async () => {
@@ -112,7 +125,7 @@ export function Destinations() {
     setIsVisible(true);
   }, [headingControls, subheadingControls]);
 
-  // React Slick settings for main country carousel
+  // React Slick settings for the main country carousel
   const countrySliderSettings: Settings = {
     dots: true,
     infinite: true,
@@ -120,16 +133,23 @@ export function Destinations() {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
+    ref: mainCarouselRef,
   };
 
-  // React Slick settings for city sub-carousels
+  // React Slick settings for sub-carousels of cities
   const citySliderSettings: Settings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 2,
+    slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: true,
+    arrows: false,
+    centerMode: true,
+    variableWidth: true,
+    responsive: [
+      { breakpoint: 768, settings: { slidesToShow: 1 } },
+      { breakpoint: 1024, settings: { slidesToShow: 3 } },
+    ],
   };
 
   return (
@@ -140,50 +160,67 @@ export function Destinations() {
       animate={{ opacity: isVisible ? 1 : 0 }}
       transition={{ duration: 1, ease: 'easeOut' }}
     >
-      {/* Centered Heading */}
       <motion.div
         className="mb-8 text-center"
         initial={{ opacity: 0, y: -20 }}
-        animate={headingControls}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.5 }}
       >
-        <motion.h2
-          className="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight"
-        >
-          Discover Popular Travel Destinations
-        </motion.h2>
-        <motion.p
-          className="mt-4 text-gray-500 text-lg md:text-xl font-medium"
-        >
-          Explore the most visited countries and their top cities!
-        </motion.p>
+        <h2 className="text-4xl font-bold text-gray-800 mb-4">Explore the World & Your Own Backyard</h2>
+        <p className="text-lg text-gray-600">
+          Discover the best getaways that make every trip memorable, from serene Indian retreats to exotic foreign
+          experiences!
+        </p>
       </motion.div>
 
-      {/* Main Carousel for Countries */}
-      <motion.div className="container mx-auto px-6">
-        <Slider {...countrySliderSettings}>
-          {countries.map((country) => (
-            <motion.div key={country.id} className="bg-white rounded-2xl p-4 shadow-lg">
-              <h3 className="text-2xl font-semibold mb-4">{country.name}</h3>
-              {/* Sub-carousel for cities */}
-              <Slider {...citySliderSettings}>
-                {country.videos.map((video, index) => (
-                  <div key={index} className="relative bg-gray-200 rounded-lg overflow-hidden">
-                    <video
-                      className="w-full h-60 object-cover"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      src={video}
-                      alt={`City ${index + 1}`}
-                    />
-                  </div>
-                ))}
-              </Slider>
-            </motion.div>
+      {/* India Carousel */}
+      <div className="w-full px-4 mb-8">
+        <Slider {...citySliderSettings}>
+          {indiaPlaces[0].images.map((image, cityIndex) => (
+            <div key={cityIndex} className="relative p-2">
+              <div className="overflow-hidden rounded-lg shadow-lg">
+                <img
+                  src={image}
+                  alt={`Place ${indiaPlaces[0].placeNames[cityIndex]}`}
+                  className="w-full h-48 object-cover"
+                />
+              </div>
+              <p className="mt-2 text-center text-lg font-semibold text-gray-800">{indiaPlaces[0].placeNames[cityIndex]}</p>
+              <button className="mt-2 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                Book Your Adventure
+              </button>
+            </div>
           ))}
         </Slider>
-      </motion.div>
+      </div>
+
+      {/* Foreign Countries Carousel */}
+      <div className="w-full px-4">
+        <Slider {...countrySliderSettings} ref={mainCarouselRef}>
+          {countries.map((country, index) => (
+            <div key={country.id} className="relative p-4">
+              <h3 className="text-2xl font-bold text-center mb-4 text-gray-800">{country.name}</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {country.images.map((image, cityIndex) => (
+                  <div key={cityIndex} className="relative p-2">
+                    <div className="overflow-hidden rounded-lg shadow-lg">
+                      <img
+                        src={image}
+                        alt={`Place ${country.placeNames[cityIndex]}`}
+                        className="w-full h-48 object-cover"
+                      />
+                    </div>
+                    <p className="mt-2 text-center text-lg font-semibold text-gray-800">{country.placeNames[cityIndex]}</p>
+                    <button className="mt-2 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                      Plan Your Visit
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </Slider>
+      </div>
     </motion.section>
   );
 }
