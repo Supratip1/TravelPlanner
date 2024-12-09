@@ -10,8 +10,10 @@ export function Hero() {
   const heroRef = useRef(null);
 
   // Heading and subheading text
-  const headingText = 'Experience Virtual Escapes';
-  const subheadingText = 'Plan with AI, see in AR.';
+  const headingText = 'Your Perfect Trip Awaits';
+
+
+  const subheadingText = 'Plan your trip within your budget with personalized deals.';
 
   // Typing animation for the heading
   useEffect(() => {

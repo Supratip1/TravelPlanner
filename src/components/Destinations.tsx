@@ -17,7 +17,7 @@ const destinations = [
     video: TokyoVideo,
     rating: 4.9,
     reviews: 2841,
-    arExperiences: 42,
+    bookings: 42,
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const destinations = [
     video: SantoriniVideo,
     rating: 4.8,
     reviews: 2103,
-    arExperiences: 35,
+    bookings: 35,
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ const destinations = [
     video: BaliVideo,
     rating: 4.9,
     reviews: 1957,
-    arExperiences: 28,
+    bookings: 28,
   },
   {
     id: 4,
@@ -41,7 +41,7 @@ const destinations = [
     video: USVideo,
     rating: 4.7,
     reviews: 3412,
-    arExperiences: 53,
+    bookings: 53,
   },
   {
     id: 5,
@@ -49,7 +49,7 @@ const destinations = [
     video: DubaiVideo,
     rating: 4.6,
     reviews: 2895,
-    arExperiences: 60,
+    bookings: 60,
   },
   {
     id: 6,
@@ -57,7 +57,7 @@ const destinations = [
     video: SingaporeVideo,
     rating: 4.8,
     reviews: 2601,
-    arExperiences: 45,
+    bookings: 45,
   },
 ];
 
@@ -123,7 +123,7 @@ export function Destinations() {
           initial={{ opacity: 0, y: -20 }}
           animate={headingControls}
         >
-          Discover Amazing Destinations
+          Discover Popular Destinations
         </motion.h2>
         <motion.p
           className="mt-4 text-gray-500 text-lg md:text-xl font-medium tracking-normal transform hover:translate-y-1 transition-transform duration-300"
@@ -133,7 +133,7 @@ export function Destinations() {
           initial={{ opacity: 0, y: 20 }}
           animate={subheadingControls}
         >
-          Explore the world’s best places with immersive AR experiences.
+          Find and plan your next adventure with personalized itineraries and the best travel deals.
         </motion.p>
       </motion.div>
 
@@ -173,7 +173,7 @@ export function Destinations() {
                   </div>
                   <div className="flex items-center gap-1 text-purple-600">
                     <Users className="w-5 h-5" />
-                    <span>{dest.arExperiences} AR Experiences</span>
+                    <span>{dest.bookings} Bookings</span>
                   </div>
                 </div>
                 <motion.button
@@ -182,7 +182,7 @@ export function Destinations() {
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: 'spring', stiffness: 300 }}
                 >
-                  Preview in AR
+                  Book Deals
                 </motion.button>
               </div>
             </motion.div>
