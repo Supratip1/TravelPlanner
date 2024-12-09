@@ -46,7 +46,7 @@ export function Hero() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen py-0">
+    <div className="flex flex-col md:flex-row min-h-screen w-full overflow-x-hidden">
       {/* Hero Section */}
       <motion.div
         ref={heroRef}
@@ -54,7 +54,7 @@ export function Hero() {
       >
         {/* Background pattern */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-40"></div>
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-40 max-w-full"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent"></div>
         </div>
 
@@ -109,18 +109,17 @@ export function Hero() {
               animate="visible"
               variants={fadeInUp}
             >
-               <motion.button
-              className="group flex items-center gap-2 bg-white text-purple-900 px-8 py-4 rounded-full font-semibold hover:bg-opacity-90 transition-all"
-              onClick={scrollToDestinations}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Start Exploring
-              <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-            </motion.button>
               <motion.button
                 className="group flex items-center gap-2 bg-white text-purple-900 px-8 py-4 rounded-full font-semibold hover:bg-opacity-90 transition-all"
-                //onClick={scrollToDestinations}
+                onClick={scrollToDestinations}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Start Exploring
+                <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+              </motion.button>
+              <motion.button
+                className="group flex items-center gap-2 bg-white text-purple-900 px-8 py-4 rounded-full font-semibold hover:bg-opacity-90 transition-all"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >

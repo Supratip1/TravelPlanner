@@ -52,8 +52,8 @@ export function Navbar(): JSX.Element {
             {/* Logo */}
             <Logo />
 
-            {/* Navigation links container */}
-            <div className="flex items-center gap-6 ml-auto">
+            {/* Desktop Navigation links */}
+            <div className="hidden md:flex items-center gap-6 ml-auto">
               {/* Navigation links */}
               <NavLink 
                 href="#destinations" 
@@ -102,8 +102,8 @@ export function Navbar(): JSX.Element {
             {/* Mobile menu button */}
             <button 
               className="md:hidden relative p-2 text-white hover:text-gray-400 transition-colors"
-              onClick={() => setIsMobileNavOpen(true)}
-              aria-label="Open menu"
+              onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
+              aria-label="Toggle mobile menu"
             >
               <Menu className="w-5 h-5 text-white" />
             </button>
@@ -111,6 +111,7 @@ export function Navbar(): JSX.Element {
         </div>
       </nav>
 
+      {/* Mobile navigation */}
       <MobileNav 
         isOpen={isMobileNavOpen} 
         onClose={() => setIsMobileNavOpen(false)} 
