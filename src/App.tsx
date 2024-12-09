@@ -12,12 +12,15 @@ function App() {
       <main>
         <Hero />
         
-        {/* <section id="plan-trip">
+         <section id="plan-trip">
   <ItineraryPlanner />
 </section>
+{/* 
 <section id="booking">
   <BookingSection />
-</section> */}
+</section>
+*/}
+ 
 
         
       </main>

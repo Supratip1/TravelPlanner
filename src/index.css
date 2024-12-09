@@ -20,4 +20,18 @@
     width: 100%; /* Ensure full width */
     box-sizing: border-box;
   }
-  
+  /* Add these styles to your Tailwind configuration or global CSS */
+@layer utilities {
+  .text-shadow-md {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .text-shadow-lg {
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+  }
+  .shadow-md {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .shadow-lg {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
+}
