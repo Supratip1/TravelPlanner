@@ -11,8 +11,6 @@ export function Hero() {
 
   // Heading and subheading text
   const headingText = 'Your Perfect Trip Awaits';
-
-
   const subheadingText = 'Plan your trip within your budget with personalized deals.';
 
   // Typing animation for the heading
@@ -48,11 +46,11 @@ export function Hero() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen w-full overflow-x-hidden">
+    <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
       {/* Hero Section */}
       <motion.div
         ref={heroRef}
-        className="relative w-full md:w-[350px] min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-violet-900 text-white overflow-hidden"
+        className="relative w-full min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-violet-900 text-white overflow-hidden"
       >
         {/* Background pattern */}
         <div className="absolute inset-0">
@@ -137,7 +135,7 @@ export function Hero() {
       </motion.div>
 
       {/* Destinations Section */}
-      <div className="flex-1 min-h-screen overflow-y-auto bg-gray-50">
+      <div id="destinations" className="flex-1 w-full overflow-y-auto bg-gray-50">
         <Destinations />
       </div>
     </div>

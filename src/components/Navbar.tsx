@@ -79,19 +79,7 @@ export function Navbar(): JSX.Element {
                 </span>
               </NavLink>
 
-              {/* Play/Pause Button */}
-              <button
-                className="text-white text-sm flex items-center"
-                onClick={() => setIsPlaying((prev) => !prev)}
-                aria-label={isPlaying ? 'Pause Music' : 'Play Music'}
-              >
-                {isPlaying ? (
-                  <FaPause className="w-5 h-5 mr-1" />
-                ) : (
-                  <FaPlay className="w-5 h-5 mr-1" />
-                )}
-                <span>{isPlaying ? 'Pause' : 'Play'}</span>
-              </button>
+              
             </div>
 
             {/* Mobile Menu Button */}

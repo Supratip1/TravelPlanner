@@ -18,9 +18,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
 
   return (
     <div 
-      className={`fixed inset-0 z-50 transform transition-transform duration-300 ease-in-out ${
-        isOpen ? 'translate-x-0' : 'translate-x-full'
-      }`}
+      className={`fixed inset-0 z-50 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
     >
       {/* Backdrop */}
       <div 
@@ -61,22 +59,25 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
               <Plane className="w-5 h-5" />
               <span>Book</span>
             </button>
-            <button 
+
+            {/* Commented out community button */}
+            {/* <button 
               onClick={() => handleNavClick('#community')}
               className="flex w-full items-center gap-3 text-white/80 hover:text-white py-2 transition-colors"
             >
               <Users className="w-5 h-5" />
               <span>Community</span>
-            </button>
+            </button> */}
           </nav>
 
           {/* Action Buttons */}
-          <div className="mt-8 pt-8 border-t border-white/10">
+          {/* Commented out search and profile buttons */}
+          {/* <div className="mt-8 pt-8 border-t border-white/10">
             <div className="flex gap-4">
               <NavButton icon={Search} label="Search" />
               <NavButton icon={User} label="Profile" />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
