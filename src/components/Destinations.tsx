@@ -1,104 +1,135 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
+import Slider from 'react-slick';
 import { MapPin, Star, Users } from 'lucide-react';
+import { Settings } from 'react-slick';
 
-// Import video files
-import TokyoVideo from '../videos/Tokyo.mp4';
-import SantoriniVideo from '../videos/Santorini.mp4';
-import BaliVideo from '../videos/Bali.mp4';
-import USVideo from '../videos/US.mp4';
-import DubaiVideo from '../videos/Dubai.mp4';
-import SingaporeVideo from '../videos/Singapore.mp4';
+// Type for the country data
+interface Country {
+  id: number;
+  name: string;
+  videos: string[]; // Array of video URLs or file paths for cities
+}
 
-const destinations = [
+// Sample data for countries and cities
+const countries: Country[] = [
   {
     id: 1,
-    title: "Tokyo, Japan",
-    video: TokyoVideo,
-    rating: 4.9,
-    reviews: 2841,
-    bookings: 42,
+    name: 'Japan',
+    videos: [
+      'https://via.placeholder.com/640x360?text=Tokyo',
+      'https://via.placeholder.com/640x360?text=Kyoto',
+      'https://via.placeholder.com/640x360?text=Osaka',
+      'https://via.placeholder.com/640x360?text=Hiroshima',
+      'https://via.placeholder.com/640x360?text=Fukuoka',
+      'https://via.placeholder.com/640x360?text=Hokkaido',
+    ],
   },
   {
     id: 2,
-    title: "Santorini, Greece",
-    video: SantoriniVideo,
-    rating: 4.8,
-    reviews: 2103,
-    bookings: 35,
+    name: 'Greece',
+    videos: [
+      'https://via.placeholder.com/640x360?text=Athens',
+      'https://via.placeholder.com/640x360?text=Santorini',
+      'https://via.placeholder.com/640x360?text=Mykonos',
+      'https://via.placeholder.com/640x360?text=Crete',
+      'https://via.placeholder.com/640x360?text=Rhodes',
+      'https://via.placeholder.com/640x360?text=Thessaloniki',
+    ],
   },
   {
     id: 3,
-    title: "Bali, Indonesia",
-    video: BaliVideo,
-    rating: 4.9,
-    reviews: 1957,
-    bookings: 28,
+    name: 'Indonesia',
+    videos: [
+      'https://via.placeholder.com/640x360?text=Bali',
+      'https://via.placeholder.com/640x360?text=Jakarta',
+      'https://via.placeholder.com/640x360?text=Yogyakarta',
+      'https://via.placeholder.com/640x360?text=Surabaya',
+      'https://via.placeholder.com/640x360?text=Bandung',
+      'https://via.placeholder.com/640x360?text=Lombok',
+    ],
   },
   {
     id: 4,
-    title: "New York, USA",
-    video: USVideo,
-    rating: 4.7,
-    reviews: 3412,
-    bookings: 53,
+    name: 'USA',
+    videos: [
+      'https://via.placeholder.com/640x360?text=New York',
+      'https://via.placeholder.com/640x360?text=Los Angeles',
+      'https://via.placeholder.com/640x360?text=Las Vegas',
+      'https://via.placeholder.com/640x360?text=San Francisco',
+      'https://via.placeholder.com/640x360?text=Miami',
+      'https://via.placeholder.com/640x360?text=Orlando',
+    ],
   },
   {
     id: 5,
-    title: "Dubai, UAE",
-    video: DubaiVideo,
-    rating: 4.6,
-    reviews: 2895,
-    bookings: 60,
+    name: 'UAE',
+    videos: [
+      'https://via.placeholder.com/640x360?text=Dubai',
+      'https://via.placeholder.com/640x360?text=Abu Dhabi',
+      'https://via.placeholder.com/640x360?text=Sharjah',
+      'https://via.placeholder.com/640x360?text=Fujairah',
+      'https://via.placeholder.com/640x360?text=Ajman',
+      'https://via.placeholder.com/640x360?text=Ras Al Khaimah',
+    ],
   },
   {
     id: 6,
-    title: "Singapore",
-    video: SingaporeVideo,
-    rating: 4.8,
-    reviews: 2601,
-    bookings: 45,
+    name: 'Singapore',
+    videos: [
+      'https://via.placeholder.com/640x360?text=Orchard Road',
+      'https://via.placeholder.com/640x360?text=Marina Bay',
+      'https://via.placeholder.com/640x360?text=Sentosa',
+      'https://via.placeholder.com/640x360?text=Little India',
+      'https://via.placeholder.com/640x360?text=Chinatown',
+      'https://via.placeholder.com/640x360?text=Bugis',
+    ],
   },
 ];
 
 export function Destinations() {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
   const headingControls = useAnimation();
   const subheadingControls = useAnimation();
-  const cardControls = destinations.map(() => useAnimation()); // Create an animation control for each card
 
   useEffect(() => {
     const sequence = async () => {
-      // Animate heading
-      await headingControls.start({ opacity: 1, y: 0, rotateX: 10, transition: { duration: 0.8, ease: 'easeOut' } });
-      playSound(); // Play sound for heading
-  
-      // Animate subheading
-      await subheadingControls.start({ opacity: 1, y: 0, rotateX: 5, transition: { duration: 0.5, ease: 'easeOut', delay: 0.2 } });
-      playSound(); // Play sound for subheading
-  
-      // Animate cards one by one with shorter delays
-      for (let i = 0; i < destinations.length; i++) {
-        await new Promise((resolve) => setTimeout(resolve, i * 150));
-        await cardControls[i].start({ opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } });
-        playPopSound(); // Play pop sound for each card
-      }
+      await headingControls.start({
+        opacity: 1,
+        y: 0,
+        rotateX: 10,
+        transition: { duration: 0.8, ease: 'easeOut' },
+      });
+      await subheadingControls.start({
+        opacity: 1,
+        y: 0,
+        rotateX: 5,
+        transition: { duration: 0.5, ease: 'easeOut', delay: 0.2 },
+      });
     };
-  
+
     sequence();
     setIsVisible(true);
-  }, [headingControls, subheadingControls, cardControls]);
+  }, [headingControls, subheadingControls]);
 
-  // Function to play a simple sound effect for heading and subheading
-  const playSound = () => {
-    const audio = new Audio('https://www.soundjay.com/button/beep-07.wav'); // Simple beep sound
-    audio.play();
+  // React Slick settings for main country carousel
+  const countrySliderSettings: Settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
   };
 
-  // Function to play a "pop" sound effect for the cards
-  const playPopSound = () => {
-    const audio = new Audio('https://www.soundjay.com/button/pop-03.wav'); // Simple pop sound
-    audio.play();
+  // React Slick settings for city sub-carousels
+  const citySliderSettings: Settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    arrows: true,
   };
 
   return (
@@ -116,78 +147,42 @@ export function Destinations() {
         animate={headingControls}
       >
         <motion.h2
-          className="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight transform hover:scale-105 hover:rotate-2 transition-transform duration-300"
-          style={{
-            textShadow: '2px 2px 8px rgba(0, 0, 0, 0.3)',
-          }}
-          initial={{ opacity: 0, y: -20 }}
-          animate={headingControls}
+          className="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight"
         >
-          Discover Popular Destinations
+          Discover Popular Travel Destinations
         </motion.h2>
         <motion.p
-          className="mt-4 text-gray-500 text-lg md:text-xl font-medium tracking-normal transform hover:translate-y-1 transition-transform duration-300"
-          style={{
-            textShadow: '1px 1px 4px rgba(0, 0, 0, 0.1)',
-          }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={subheadingControls}
+          className="mt-4 text-gray-500 text-lg md:text-xl font-medium"
         >
-          Find and plan your next adventure with personalized itineraries and the best travel deals.
+          Explore the most visited countries and their top cities!
         </motion.p>
       </motion.div>
 
-      {/* Destination Cards */}
+      {/* Main Carousel for Countries */}
       <motion.div className="container mx-auto px-6">
-        <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {destinations.map((dest, index) => (
-            <motion.div
-              key={dest.id}
-              className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow transform hover:scale-105 hover:rotate-1"
-              initial={{ opacity: 0, y: 20 }}
-              animate={cardControls[index]}
-            >
-              <div className="relative h-64 overflow-hidden">
-                <video
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  src={dest.video}
-                  alt={dest.title}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-xl font-semibold flex items-center gap-2">
-                    <MapPin className="w-5 h-5" /> {dest.title}
-                  </h3>
-                </div>
-              </div>
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-1">
-                    <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                    <span className="font-semibold">{dest.rating}</span>
-                    <span className="text-gray-500">({dest.reviews})</span>
+        <Slider {...countrySliderSettings}>
+          {countries.map((country) => (
+            <motion.div key={country.id} className="bg-white rounded-2xl p-4 shadow-lg">
+              <h3 className="text-2xl font-semibold mb-4">{country.name}</h3>
+              {/* Sub-carousel for cities */}
+              <Slider {...citySliderSettings}>
+                {country.videos.map((video, index) => (
+                  <div key={index} className="relative bg-gray-200 rounded-lg overflow-hidden">
+                    <video
+                      className="w-full h-60 object-cover"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      src={video}
+                      alt={`City ${index + 1}`}
+                    />
                   </div>
-                  <div className="flex items-center gap-1 text-purple-600">
-                    <Users className="w-5 h-5" />
-                    <span>{dest.bookings} Bookings</span>
-                  </div>
-                </div>
-                <motion.button
-                  className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: 'spring', stiffness: 300 }}
-                >
-                  Book Deals
-                </motion.button>
-              </div>
+                ))}
+              </Slider>
             </motion.div>
           ))}
-        </motion.div>
+        </Slider>
       </motion.div>
     </motion.section>
   );

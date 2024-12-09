@@ -4,6 +4,9 @@ import { Hero } from './components/Hero';
 import { Destinations } from './components/Destinations';
 import { ItineraryPlanner } from './components/features/ItineraryPlanner';
 import { BookingSection } from './components/booking/BookingSection';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 
 function App() {
   return (
