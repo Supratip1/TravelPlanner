@@ -178,23 +178,7 @@ export function Destinations() {
       </div>
 
       {/* Call-to-Action Section */}
-      <div className="w-full px-4 py-8 text-center bg-blue-100 rounded-lg shadow-lg">
-        <h3 className="text-2xl font-bold text-gray-800 mb-4">Dreaming of Your Next Great Adventure?</h3>
-        <p className="text-lg text-gray-600 mb-6">
-          It’s time to make it happen. Your journey is just one form away. The wonders of India await!
-        </p>
-        <button
-          className="py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
-          onClick={scrollToForm}
-        >
-          Plan Your Dream Trip Now
-        </button>
-      </div>
-
-      {/* Plan Trip Section */}
-      <section id="plan-trip" ref={formRef} className="mt-12">
-        <ItineraryPlanner />
-      </section>
+      
     </motion.section>
   );
 }

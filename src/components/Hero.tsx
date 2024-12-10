@@ -4,6 +4,7 @@ import { ArrowRight, Compass } from 'lucide-react';
 import { HeroLogo } from './hero/HeroLogo';
 import { Destinations } from './Destinations'; // Import the Destinations component
 import { BannerSection } from './BannerSection'; // Import the BannerSection component
+import { ItineraryPlanner } from './features/ItineraryPlanner';
 
 export function Hero() {
   const [typedText, setTypedText] = useState('');
@@ -32,14 +33,20 @@ export function Hero() {
     return () => clearInterval(typeInterval);
   }, [headingText]);
 
-  // Scroll and button click handlers
-  const scrollToDestinations = () => {
-    const destinationsSection = document.getElementById('destinations');
-    if (destinationsSection) {
-      destinationsSection.scrollIntoView({ behavior: 'smooth' });
+  // Scroll handler for the buttons
+  const scrollToItineraryPlanner = () => {
+    const itinerarySection = document.getElementById('itinerary-planner');
+    if (itinerarySection) {
+      itinerarySection.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
+  const scrollToDestination = () => {
+    const destinationSection = document.getElementById('destinations');
+    if (destinationSection) {
+      destinationSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+  
   // Animation variants
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -62,17 +69,7 @@ export function Hero() {
         {/* Content */}
         <div className="relative container mx-auto px-6 py-12">
           <div className="flex flex-col items-center text-center space-y-8">
-            {/* Enhanced Logo */}
-            <motion.div
-              className="relative"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
-            >
-              <div className="absolute inset-0 bg-purple-500/20 blur-3xl rounded-full scale-150"></div>
-              <HeroLogo />
-            </motion.div>
-
+            
             {/* Hero Text */}
             <div className="space-y-6">
               {/* Typing Animation for the Heading */}
@@ -112,20 +109,21 @@ export function Hero() {
             >
               <motion.button
                 className="group flex items-center gap-2 bg-white text-purple-900 px-8 py-4 rounded-full font-semibold hover:bg-opacity-90 transition-all"
-                onClick={scrollToDestinations}
+                onClick={scrollToDestination} // Updated handler
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Start Exploring
+                Popular Destinations
                 <ArrowRight className="group-hover:translate-x-1 transition-transform" />
               </motion.button>
               <motion.button
                 className="group flex items-center gap-2 bg-white text-purple-900 px-8 py-4 rounded-full font-semibold hover:bg-opacity-90 transition-all"
+                onClick={scrollToItineraryPlanner} // Updated handler
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <Compass className="w-5 h-5" />
-                View Demo
+                Customize your own Trip
               </motion.button>
             </motion.div>
           </div>
@@ -135,12 +133,14 @@ export function Hero() {
         <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-purple-900 to-transparent"></div>
       </motion.div>
 
-      {/* Banner Section */}
-     
-
       {/* Destinations Section */}
       <div id="destinations" className="flex-1 w-full overflow-y-auto bg-gray-50">
         <Destinations />
+      </div>
+
+      {/* Itinerary Planner Section */}
+      <div id="itinerary-planner" className="pb-16">
+        <ItineraryPlanner />
       </div>
     </div>
   );

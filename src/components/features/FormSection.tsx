@@ -36,7 +36,6 @@ type FormData = {
   culturalInterests: string[];
 };
 
-
 type OptionType = {
   value: string;
   label: string;
@@ -84,16 +83,17 @@ export function FormSection(): JSX.Element {
         backgroundPosition: 'center',
       }}
     >
-      <div className="container px-6">
+      <div className="container px-6 w-full">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-2">Plan Your Perfect Trip</h2>
           <p className="text-lg text-gray-700">Complete the form with your travel preferences and requirements.</p>
         </div>
 
         <form
-          className="bg-white rounded-lg shadow-xl p-8 max-w-3xl mx-auto border border-gray-300"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+  className="bg-white rounded-lg shadow-xl p-8 w-full max-w-3xl mx-auto border border-gray-300"
+  onSubmit={handleSubmit(onSubmit)}
+>
+
           {/* Personal Information */}
           <div className="mb-6 flex flex-col">
             <label className="text-lg font-medium mb-2 flex items-center">
@@ -127,7 +127,7 @@ export function FormSection(): JSX.Element {
               render={({ field }) => <TextField {...field} type="tel" variant="outlined" fullWidth placeholder="Enter your phone number" />}
             />
           </div>
-        
+
           {/* Destination */}
           <div className="mb-6 flex flex-col">
             <label className="text-lg font-medium mb-2 flex items-center">
@@ -174,30 +174,30 @@ export function FormSection(): JSX.Element {
               />
             </div>
           </div>
-       
-{/* Budget in Rupees */}
-<div className="mb-6 flex flex-col">
-  <label className="text-lg font-medium mb-2 flex items-center">
-    Budget (INR)
-  </label>
-  <Controller
-    name="budgetInRupees"
-    control={control}
-    render={({ field }) => (
-      <Slider
-        value={field.value}
-        onChange={(e, newValue) => field.onChange(newValue)}
-        min={0}
-        max={100000}
-        step={1000}
-        valueLabelDisplay="auto"
-        valueLabelFormat={(value) => `₹${value}`}
-        className="w-full"
-      />
-    )}
-  />
-  <p className="text-gray-600 mt-2">Includes transport, stay, and activities.</p>
-</div>
+
+          {/* Budget in Rupees */}
+          <div className="mb-6 flex flex-col">
+            <label className="text-lg font-medium mb-2 flex items-center">
+              Budget (INR)
+            </label>
+            <Controller
+              name="budgetInRupees"
+              control={control}
+              render={({ field }) => (
+                <Slider
+                  value={field.value}
+                  onChange={(e, newValue) => field.onChange(newValue)}
+                  min={0}
+                  max={100000}
+                  step={1000}
+                  valueLabelDisplay="auto"
+                  valueLabelFormat={(value) => `₹${value}`}
+                  className="w-full"
+                />
+              )}
+            />
+            <p className="text-gray-600 mt-2">Includes transport, stay, and activities.</p>
+          </div>
 
           {/* Additional Details */}
           <div className="mb-6 flex flex-col">
@@ -240,116 +240,44 @@ export function FormSection(): JSX.Element {
               )}
             />
           </div>
+
           {/* Dietary Preferences */}
-<div className="mb-6 flex flex-col">
-  <label className="text-lg font-medium mb-2 flex items-center">
-    <FaUtensils className="mr-2" /> Dietary Preferences
-  </label>
-  <Controller
-    name="mealPreferences"
-    control={control}
-    render={({ field }) => (
-      <Select<OptionType>
-        {...field}
-        isMulti
-        options={[
-          { value: 'Vegetarian', label: 'Vegetarian' },
-          { value: 'Vegan', label: 'Vegan' },
-          { value: 'Gluten-Free', label: 'Gluten-Free' },
-          { value: 'Halal', label: 'Halal' },
-          { value: 'Hindu Non Veg', label: 'Hindu Non Veg' },
-          { value: 'Jain', label: 'Jain' },
-          { value: 'No Preference', label: 'No Preference' },
-        ]}
-        onChange={(options) => field.onChange(options?.map(option => option.value) || [])}
-        placeholder="Select dietary preferences"
-      />
-    )}
-  />
-</div>
-
-{/* Number of Adults and Kids */}
-<div className="mb-6 flex flex-col">
-  <label className="text-lg font-medium mb-2 flex items-center">
-    <FaUsers className="mr-2" /> Number of Adults and Kids
-  </label>
-  <div className="flex flex-col md:flex-row gap-4">
-    <Controller
-      name="numberOfAdults"
-      control={control}
-      render={({ field }) => (
-        <input
-          {...field}
-          type="number"
-          min="1"
-          className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none w-full"
-          placeholder="Number of Adults"
-        />
-      )}
-    />
-    <Controller
-      name="numberOfKids"
-      control={control}
-      render={({ field }) => (
-        <input
-          {...field}
-          type="number"
-          min="0"
-          className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none w-full"
-          placeholder="Number of Kids"
-        />
-      )}
-    />
-  </div>
-</div>
-
-
-{/* Type of Trip */}
-<div className="mb-6 flex flex-col">
-  <label className="text-lg font-medium mb-2 flex items-center">
-    <FaPlane className="mr-2" /> Type of Trip
-  </label>
-  <Controller
-    name="typeOfTrip"
-    control={control}
-    render={({ field }) => (
-      <Select<OptionType>
-        {...field}
-        options={[
-          { value: 'Family', label: 'Family' },
-          { value: 'Adventure', label: 'Adventure' },
-          { value: 'Honeymoon', label: 'Honeymoon' },
-          { value: 'Destination Wedding', label: 'Destination Wedding' },
-          { value: 'Relaxation', label: 'Relaxation' },
-          { value: 'Cultural', label: 'Cultural' },
-          { value: 'Backpacking', label: 'Backpacking' },
-          { value: 'Luxury', label: 'Luxury' },
-          { value: 'Business', label: 'Business' },
-        ]}
-        onChange={(option: SingleValue<OptionType>) => field.onChange(option?.value)}
-        placeholder="Select the type of trip"
-      />
-    )}
-  />
-</div>
-
-
-          <div className="flex items-center mb-6">
-            <Checkbox
-              {...control.register('travelInsurance')}
-              className="mr-3"
-              color="primary"
+          <div className="mb-6 flex flex-col">
+            <label className="text-lg font-medium mb-2 flex items-center">
+              <FaUtensils className="mr-2" /> Dietary Preferences
+            </label>
+            <Controller
+              name="mealPreferences"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  isMulti
+                  options={[
+                    { value: 'Vegetarian', label: 'Vegetarian' },
+                    { value: 'Vegan', label: 'Vegan' },
+                    { value: 'Gluten-Free', label: 'Gluten-Free' },
+                    { value: 'Halal', label: 'Halal' },
+                    { value: 'Kosher', label: 'Kosher' },
+                  ]}
+                  onChange={(selectedOptions: any) => {
+                    field.onChange(selectedOptions.map((option: any) => option.value));
+                  }}
+                  placeholder="Select meal preferences"
+                />
+              )}
             />
-            <label className="text-lg font-medium">Would you like travel insurance?</label>
           </div>
 
-          {/* Submit */}
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-lg hover:bg-blue-600"
-          >
-            Book Now
-          </button>
+          {/* Submit Button */}
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-200"
+            >
+              Book Now
+            </button>
+          </div>
         </form>
       </div>
     </section>

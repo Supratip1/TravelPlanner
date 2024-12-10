@@ -44,6 +44,11 @@
   display: flex;
   animation: marquee 20s linear infinite;
 }
+/* Custom CSS for the carousel container */
+.carousel-container {
+  width: 100%; /* Full width for larger screens */
+  margin: auto; /* Center alignment */
+}
 
 
 
