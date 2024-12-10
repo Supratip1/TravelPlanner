@@ -162,7 +162,7 @@ export function Destinations() {
                     </p>
                   </div>
                   <button className="mt-3 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                    Book Your Adventure
+                    Book Your Trip
                   </button>
                 </div>
               </div>

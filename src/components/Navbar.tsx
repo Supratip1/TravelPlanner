@@ -36,7 +36,7 @@ export function Navbar(): JSX.Element {
 
       {/* Navbar container */}
       <nav
-        style={{ position: 'relative', zIndex: 50 }}
+        style={{ position: 'fixed', top: 0, width: '100%', zIndex: 50 }}
         className={`w-full transition-all duration-300 ${
           isScrolled
             ? 'bg-purple-800 backdrop-blur-md shadow-sm'
@@ -63,7 +63,7 @@ export function Navbar(): JSX.Element {
                 </span>
               </NavLink>
               <NavLink
-                href="#plan-trip"
+                href="#plantrip"
                 className="text-white text-sm border-b-2 border-transparent hover:border-purple-500 hover:text-white transition duration-300"
               >
                 <span className="flex items-center gap-2">
