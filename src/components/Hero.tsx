@@ -3,15 +3,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Compass } from 'lucide-react';
 import { HeroLogo } from './hero/HeroLogo';
 import { Destinations } from './Destinations'; // Import the Destinations component
+import { BannerSection } from './BannerSection'; // Import the BannerSection component
 
 export function Hero() {
   const [typedText, setTypedText] = useState('');
   const [showSubheading, setShowSubheading] = useState(false);
   const heroRef = useRef(null);
 
-  // Heading and subheading text
-  const headingText = 'Your Perfect Trip Awaits';
-  const subheadingText = 'Plan your trip within your budget with personalized deals.';
+  // Updated heading and subheading text for an AI-focused travel service
+  const headingText = 'Your Dream Indian Vacation, Customized by AI';
+  const subheadingText = 'Discover the perfect travel deals personalized for you with the power of AI';
 
   // Typing animation for the heading
   useEffect(() => {
@@ -50,7 +51,7 @@ export function Hero() {
       {/* Hero Section */}
       <motion.div
         ref={heroRef}
-        className="relative w-full min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-violet-900 text-white overflow-hidden"
+        className="relative w-full h-[80vh] bg-gradient-to-br from-indigo-900 via-purple-900 to-violet-900 text-white overflow-hidden"
       >
         {/* Background pattern */}
         <div className="absolute inset-0">
@@ -59,7 +60,7 @@ export function Hero() {
         </div>
 
         {/* Content */}
-        <div className="relative container mx-auto px-6 py-20 mt-6">
+        <div className="relative container mx-auto px-6 py-12">
           <div className="flex flex-col items-center text-center space-y-8">
             {/* Enhanced Logo */}
             <motion.div
@@ -76,7 +77,7 @@ export function Hero() {
             <div className="space-y-6">
               {/* Typing Animation for the Heading */}
               <motion.h1
-                className="text-4xl sm:text-6xl font-bold tracking-tight"
+                className="text-4xl sm:text-5xl font-bold tracking-tight"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8 }}
@@ -133,6 +134,9 @@ export function Hero() {
         {/* Decorative elements */}
         <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-purple-900 to-transparent"></div>
       </motion.div>
+
+      {/* Banner Section */}
+     
 
       {/* Destinations Section */}
       <div id="destinations" className="flex-1 w-full overflow-y-auto bg-gray-50">
