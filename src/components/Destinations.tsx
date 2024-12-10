@@ -34,22 +34,18 @@ export function Destinations() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const headingControls = useAnimation();
   const subheadingControls = useAnimation();
-  const [mainCarouselIndex, setMainCarouselIndex] = useState<number>(0);
   const mainCarouselRef = React.useRef<Slider>(null);
   const formRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (mainCarouselRef.current) {
-        const totalSlides = indiaPlaces[0].images.length;
-        const nextIndex = (mainCarouselIndex + 1) % totalSlides;
-        setMainCarouselIndex(nextIndex);
-        mainCarouselRef.current.slickGoTo(nextIndex);
+        mainCarouselRef.current.slickNext();
       }
-    }, 10000);
+    }, 4000); // Change the interval to 4 seconds (4000 milliseconds)
 
     return () => clearInterval(interval);
-  }, [mainCarouselIndex]);
+  }, []);
 
   useEffect(() => {
     const sequence = async () => {
