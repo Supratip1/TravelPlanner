@@ -67,53 +67,51 @@ export function Destinations() {
     setIsVisible(true);
   }, [headingControls, subheadingControls]);
 
-  // React Slick settings with adjustments for mobile-first design
-  // React Slick settings with adjustments for mobile-first design
-const citySliderSettings: Settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1, // Default for smaller screens
-  slidesToScroll: 1,
-  arrows: false,
-  centerMode: true,
-  variableWidth: false,
-  responsive: [
-    {
-      breakpoint: 768, // Mobile view settings
-      settings: {
-        slidesToShow: 1,
-        centerMode: true,
-        variableWidth: false,
+  // Updated React Slick settings
+  const citySliderSettings: Settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1, // Default for smaller screens
+    slidesToScroll: 1,
+    arrows: false,
+    centerMode: true,
+    variableWidth: false,
+    responsive: [
+      {
+        breakpoint: 768, // Mobile view settings
+        settings: {
+          slidesToShow: 1,
+          centerMode: true,
+          variableWidth: false,
+        },
       },
-    },
-    {
-      breakpoint: 1024, // Tablet and small desktop view
-      settings: {
-        slidesToShow: 2,
-        centerMode: true,
-        variableWidth: false,
+      {
+        breakpoint: 1024, // Tablet view
+        settings: {
+          slidesToShow: 2,
+          centerMode: true,
+          variableWidth: false,
+        },
       },
-    },
-    {
-      breakpoint: 1440, // Larger desktop view
-      settings: {
-        slidesToShow: 4, // Show 4 slides at once for large screens
-        centerMode: false,
-        variableWidth: false,
+      {
+        breakpoint: 1440, // Large desktop view
+        settings: {
+          slidesToShow: 3, // Show 3 slides at once for larger screens
+          centerMode: false,
+          variableWidth: false,
+        },
       },
-    },
-    {
-      breakpoint: 1920, // Extra large screens
-      settings: {
-        slidesToShow: 4, // Show 4 slides at once for extra large screens
-        centerMode: false,
-        variableWidth: false,
+      {
+        breakpoint: 1920, // Extra large screens
+        settings: {
+          slidesToShow: 3, // Maintain 3 slides on extra large screens as well
+          centerMode: false,
+          variableWidth: false,
+        },
       },
-    },
-  ],
-};
-
+    ],
+  };
 
   const scrollToForm = () => {
     if (formRef.current) {
@@ -147,42 +145,39 @@ const citySliderSettings: Settings = {
 
       {/* India Carousel */}
       <div className="w-full px-4 mb-12">
-  {/* Add a container to control the size of the carousel */}
-  <div className="max-w-[100%] md:max-w-[90%] lg:max-w-[80%] xl:max-w-[70%] mx-auto">
-    <Slider {...citySliderSettings} ref={mainCarouselRef}>
-      {indiaPlaces[0].images.map((image, cityIndex) => (
-        <div key={cityIndex} className="relative p-4 md:p-6">
-          <div className="overflow-hidden rounded-lg shadow-lg bg-white">
-            <img
-              src={image}
-              alt={`Place ${indiaPlaces[0].placeNames[cityIndex]}`}
-              className="w-full h-[300px] md:h-[350px] lg:h-[300px] xl:h-[350px] 2xl:h-[400px] object-cover rounded-lg"
-            />
-          </div>
-          <p className="mt-3 text-center text-lg font-semibold text-gray-800">{indiaPlaces[0].placeNames[cityIndex]}</p>
-          <p className="mt-2 text-center text-md text-gray-600 font-light">
-            {/* Custom descriptions */}
-            {cityIndex === 0 && "Discover the charming cold, perfect for a family getaway in the lap of nature. Packages starting at ₹10,000!"}
-            {cityIndex === 1 && "Adventure seekers will love the thrilling activities and stunning views. All-inclusive packages from ₹12,000!"}
-            {cityIndex === 2 && "Relax on sun-kissed beaches with beachside shacks and lively nightlife. Starting at ₹8,000 per person!"}
-            {cityIndex === 3 && "Sail through picturesque backwaters on traditional houseboats. Experience serenity for ₹15,000 per couple!"}
-            {cityIndex === 4 && "Indulge in peaceful retreats amid lush tea gardens and rolling hills. Find packages from ₹9,000!"}
-            {cityIndex === 5 && "Step into a world of royal architecture and vibrant culture. Explore Rajasthan from ₹11,000 per day!"}
-            {cityIndex === 6 && "Feel the spiritual essence of India with historic temples and sacred rituals. Spiritual tours starting at ₹6,000!"}
-            {cityIndex === 7 && "Immerse yourself in tropical paradise with white sand beaches and adventure sports. Explore Andaman from ₹18,000!"}
-          </p>
-          <button className="mt-3 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-            Book Your Adventure
-          </button>
+        <div className="max-w-[100%] md:max-w-[90%] lg:max-w-[80%] xl:max-w-[70%] mx-auto">
+          <Slider {...citySliderSettings} ref={mainCarouselRef}>
+            {indiaPlaces[0].images.map((image, cityIndex) => (
+              <div key={cityIndex} className="relative p-4 md:p-6">
+                <div className="overflow-hidden rounded-lg shadow-lg bg-white">
+                  <img
+                    src={image}
+                    alt={`Place ${indiaPlaces[0].placeNames[cityIndex]}`}
+                    className="w-full h-[300px] md:h-[350px] lg:h-[300px] xl:h-[350px] 2xl:h-[400px] object-cover rounded-lg"
+                  />
+                </div>
+                <p className="mt-3 text-center text-lg font-semibold text-gray-800">{indiaPlaces[0].placeNames[cityIndex]}</p>
+                <p className="mt-2 text-center text-md text-gray-600 font-light">
+                  {/* Custom descriptions */}
+                  {cityIndex === 0 && "Discover the charming cold, perfect for a family getaway in the lap of nature. Packages starting at ₹10,000!"}
+                  {cityIndex === 1 && "Adventure seekers will love the thrilling activities and stunning views. All-inclusive packages from ₹12,000!"}
+                  {cityIndex === 2 && "Relax on sun-kissed beaches with beachside shacks and lively nightlife. Starting at ₹8,000 per person!"}
+                  {cityIndex === 3 && "Sail through picturesque backwaters on traditional houseboats. Experience serenity for ₹15,000 per couple!"}
+                  {cityIndex === 4 && "Indulge in peaceful retreats amid lush tea gardens and rolling hills. Find packages from ₹9,000!"}
+                  {cityIndex === 5 && "Step into a world of royal architecture and vibrant culture. Explore Rajasthan from ₹11,000 per day!"}
+                  {cityIndex === 6 && "Feel the spiritual essence of India with historic temples and sacred rituals. Spiritual tours starting at ₹6,000!"}
+                  {cityIndex === 7 && "Immerse yourself in tropical paradise with white sand beaches and adventure sports. Explore Andaman from ₹18,000!"}
+                </p>
+                <button className="mt-3 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                  Book Your Adventure
+                </button>
+              </div>
+            ))}
+          </Slider>
         </div>
-      ))}
-    </Slider>
-  </div>
-</div>
-
+      </div>
 
       {/* Call-to-Action Section */}
-      
     </motion.section>
   );
 }

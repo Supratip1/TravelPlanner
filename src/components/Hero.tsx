@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Compass } from 'lucide-react';
-import { HeroLogo } from './hero/HeroLogo';
 import { Destinations } from './Destinations'; // Import the Destinations component
-import { BannerSection } from './BannerSection'; // Import the BannerSection component
 import { ItineraryPlanner } from './features/ItineraryPlanner';
 
 export function Hero() {
@@ -46,7 +44,7 @@ export function Hero() {
       destinationSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
-  
+
   // Animation variants
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -58,7 +56,7 @@ export function Hero() {
       {/* Hero Section */}
       <motion.div
         ref={heroRef}
-        className="relative w-full h-[80vh] bg-gradient-to-br from-indigo-900 via-purple-900 to-violet-900 text-white overflow-hidden"
+        className="relative w-full bg-gradient-to-br from-indigo-900 via-purple-900 to-violet-900 text-white overflow-hidden"
       >
         {/* Background pattern */}
         <div className="absolute inset-0">
@@ -67,66 +65,65 @@ export function Hero() {
         </div>
 
         {/* Content */}
-        <div className="relative container mx-auto px-6 py-12">
-          <div className="flex flex-col items-center text-center space-y-8">
-            
-            {/* Hero Text */}
-            <div className="space-y-6">
-              {/* Typing Animation for the Heading */}
-              <motion.h1
-                className="text-4xl sm:text-5xl font-bold tracking-tight"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8 }}
-              >
-                {typedText.split(' ').map((word, index) => (
-                  <span key={index} className={`${index === 1 ? 'block sm:inline' : ''}`}>{word}{' '}</span>
-                ))}
-              </motion.h1>
-
-              {/* Animate Subheading after Typing is Complete */}
-              <AnimatePresence>
-                {showSubheading && (
-                  <motion.p
-                    className="text-lg text-gray-300 max-w-2xl mx-auto"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
-                  >
-                    {subheadingText}
-                  </motion.p>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* CTA Buttons */}
-            <motion.div
-              className="flex flex-wrap justify-center gap-4"
-              initial="hidden"
-              animate="visible"
-              variants={fadeInUp}
+        <div className="relative container mx-auto px-4 py-12 max-w-2xl text-center">
+          <div className="space-y-6">
+            {/* Typing Animation for the Heading */}
+            <motion.h1
+              className="text-4xl sm:text-5xl font-bold tracking-tight"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8 }}
             >
-              <motion.button
-                className="group flex items-center gap-2 bg-white text-purple-900 px-8 py-4 rounded-full font-semibold hover:bg-opacity-90 transition-all"
-                onClick={scrollToDestination} // Updated handler
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Popular Destinations
-                <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-              </motion.button>
-              <motion.button
-                className="group flex items-center gap-2 bg-white text-purple-900 px-8 py-4 rounded-full font-semibold hover:bg-opacity-90 transition-all"
-                onClick={scrollToItineraryPlanner} // Updated handler
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Compass className="w-5 h-5" />
-                Customize your own Trip
-              </motion.button>
-            </motion.div>
+              {typedText.split(' ').map((word, index) => (
+                <span key={index} className={`${index === 1 ? 'block sm:inline' : ''}`}>
+                  {word}{' '}
+                </span>
+              ))}
+            </motion.h1>
+
+            {/* Animate Subheading after Typing is Complete */}
+            <AnimatePresence>
+              {showSubheading && (
+                <motion.p
+                  className="text-lg text-gray-300 mx-auto"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.6, ease: 'easeOut' }}
+                >
+                  {subheadingText}
+                </motion.p>
+              )}
+            </AnimatePresence>
           </div>
+
+          {/* CTA Buttons */}
+          <motion.div
+            className="flex justify-center gap-4 mt-6"
+            initial="hidden"
+            animate="visible"
+            variants={fadeInUp}
+          >
+            <motion.button
+  className="group flex items-center gap-2 bg-white text-purple-900 px-4 py-2 text-sm sm:text-base sm:px-8 sm:py-4 rounded-full font-semibold hover:bg-opacity-90 transition-all"
+  onClick={scrollToDestination}
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+>
+  Popular Destinations
+  <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+</motion.button>
+<motion.button
+  className="group flex items-center gap-2 bg-white text-purple-900 px-4 py-2 text-sm sm:text-base sm:px-8 sm:py-4 rounded-full font-semibold hover:bg-opacity-90 transition-all"
+  onClick={scrollToItineraryPlanner}
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+>
+  <Compass className="w-5 h-5" />
+  Customize your own Trip
+</motion.button>
+
+          </motion.div>
         </div>
 
         {/* Decorative elements */}
