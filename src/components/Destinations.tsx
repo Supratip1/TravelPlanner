@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import { Settings } from 'react-slick';
-import { ItineraryPlanner } from '../components/features/ItineraryPlanner';
+import { motion, useAnimation } from 'framer-motion';
 
 interface Destination {
   id: number;
@@ -31,13 +31,13 @@ const indiaPlaces: Destination[] = [
 ];
 
 export function Destinations() {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const [isVisible, setIsVisible] = React.useState<boolean>(false);
   const headingControls = useAnimation();
   const subheadingControls = useAnimation();
   const mainCarouselRef = React.useRef<Slider>(null);
-  const formRef = React.useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const interval = setInterval(() => {
       if (mainCarouselRef.current) {
         mainCarouselRef.current.slickNext();
@@ -47,7 +47,7 @@ export function Destinations() {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const sequence = async () => {
       await headingControls.start({
         opacity: 1,
@@ -71,22 +71,22 @@ export function Destinations() {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 1, // Default to showing one slide at a time
+    slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
     centerMode: true,
     variableWidth: false,
     responsive: [
       {
-        breakpoint: 768, // Mobile view
+        breakpoint: 768,
         settings: {
-          slidesToShow: 1, // Only show one slide at a time on mobile
-          centerMode: false, // Disable center mode to ensure full slide visibility
+          slidesToShow: 1,
+          centerMode: false,
           variableWidth: false,
         },
       },
       {
-        breakpoint: 1024, // Tablet view
+        breakpoint: 1024,
         settings: {
           slidesToShow: 2,
           centerMode: true,
@@ -94,7 +94,7 @@ export function Destinations() {
         },
       },
       {
-        breakpoint: 1440, // Large desktop view
+        breakpoint: 1440,
         settings: {
           slidesToShow: 3,
           centerMode: false,
@@ -102,7 +102,7 @@ export function Destinations() {
         },
       },
       {
-        breakpoint: 1920, // Extra large screens
+        breakpoint: 1920,
         settings: {
           slidesToShow: 3,
           centerMode: false,
@@ -149,29 +149,25 @@ export function Destinations() {
                     <p className="mt-3 text-center text-lg font-semibold text-gray-800">
                       {indiaPlaces[0].placeNames[cityIndex]}
                     </p>
-                    <p className="mt-2 text-center text-md text-gray-600 font-light">
-                      {/* Custom descriptions */}
-                      {cityIndex === 0 && "Discover the charming cold, perfect for a family getaway in the lap of nature. Packages starting at ₹10,000!"}
-                      {cityIndex === 1 && "Adventure seekers will love the thrilling activities and stunning views. All-inclusive packages from ₹12,000!"}
-                      {cityIndex === 2 && "Relax on sun-kissed beaches with beachside shacks and lively nightlife. Starting at ₹8,000 per person!"}
-                      {cityIndex === 3 && "Sail through picturesque backwaters on traditional houseboats. Experience serenity for ₹15,000 per couple!"}
-                      {cityIndex === 4 && "Indulge in peaceful retreats amid lush tea gardens and rolling hills. Find packages from ₹9,000!"}
-                      {cityIndex === 5 && "Step into a world of royal architecture and vibrant culture. Explore Rajasthan from ₹11,000 per day!"}
-                      {cityIndex === 6 && "Feel the spiritual essence of India with historic temples and sacred rituals. Spiritual tours starting at ₹6,000!"}
-                      {cityIndex === 7 && "Immerse yourself in tropical paradise with white sand beaches and adventure sports. Explore Andaman from ₹18,000!"}
-                    </p>
+                    <button
+  onClick={() => {
+    const cityPath = `/itinerary/${indiaPlaces[0].placeNames[cityIndex]}`;
+    console.log('Navigating to path:', cityPath);  // Debug output
+    navigate(cityPath);
+  }}
+  
+  className="mt-3 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+>
+  Book Your Trip
+</button>
+
                   </div>
-                  <button className="mt-3 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                    Book Your Trip
-                  </button>
                 </div>
               </div>
             ))}
           </Slider>
         </div>
       </div>
-
-      {/* Call-to-Action Section */}
     </motion.section>
   );
 }
