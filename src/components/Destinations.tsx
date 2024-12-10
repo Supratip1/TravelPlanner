@@ -25,8 +25,11 @@ const indiaPlaces: Destination[] = [
       'https://cdn.pixabay.com/photo/2021/04/06/11/22/hawa-mahal-6156123_1280.jpg',
       'https://cdn.pixabay.com/photo/2017/06/04/18/00/varanasi-2371751_640.jpg',
       'https://images.unsplash.com/photo-1642498232612-a837df233825?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGFuZGFtYW58ZW58MHx8MHx8fDA%3D',
+      'https://plus.unsplash.com/premium_photo-1661964079694-ccfaf7dc8028?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dWRhaXB1cnxlbnwwfHwwfHx8MA%3D%3D',
+      'https://plus.unsplash.com/premium_photo-1697730398251-40cd8dc57e0b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cmlzaGlrZXNofGVufDB8fDB8fHww',
+      'https://plus.unsplash.com/premium_photo-1697729578645-a9decad10b8c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8TGVofGVufDB8fDB8fHww',
     ],
-    placeNames: ['Shimla', 'Manali', 'Goa', 'Alleppey', 'Munnar', 'Jaipur', 'Varanasi', 'Andaman'],
+    placeNames: ['Shimla', 'Manali', 'Goa', 'Alleppey', 'Munnar', 'Jaipur', 'Varanasi', 'Andaman', 'Udaipur', 'Rishikesh', 'Leh'],
   },
 ];
 
@@ -68,7 +71,7 @@ export function Destinations() {
   }, [headingControls, subheadingControls]);
 
   const citySliderSettings: Settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -148,6 +151,20 @@ export function Destinations() {
                   <div className="px-4 py-2">
                     <p className="mt-3 text-center text-lg font-semibold text-gray-800">
                       {indiaPlaces[0].placeNames[cityIndex]}
+                      <p className="mt-2 text-center text-md text-gray-600 font-light">
+                      {/* Custom descriptions */}
+                      {cityIndex === 0 && "Discover the charming cold, perfect for a family getaway in the lap of nature. Packages starting at ₹10,000!"}
+                      {cityIndex === 1 && "Adventure seekers will love the thrilling activities and stunning views. All-inclusive packages from ₹12,000!"}
+                      {cityIndex === 2 && "Relax on sun-kissed beaches with beachside shacks and lively nightlife. Starting at ₹8,000 per person!"}
+                      {cityIndex === 3 && "Sail through picturesque backwaters on traditional houseboats. Experience serenity for ₹15,000 per couple!"}
+                      {cityIndex === 4 && "Indulge in peaceful retreats amid lush tea gardens and rolling hills. Find packages from ₹9,000!"}
+                      {cityIndex === 5 && "Step into a world of royal architecture and vibrant culture. Explore Rajasthan from ₹11,000 per day!"}
+                      {cityIndex === 6 && "Feel the spiritual essence of India with historic temples and sacred rituals. Spiritual tours starting at ₹6,000!"}
+                      {cityIndex === 7 && "Immerse yourself in tropical paradise with white sand beaches and adventure sports. Explore Andaman from ₹18,000!"}
+                      {cityIndex === 8 && "Explore the City of Lakes, offering romantic vibes, rich history, and cultural treasures. Packages from ₹7,000!"}
+                      {cityIndex === 9 && "Dive into yoga, spirituality, and adrenaline-pumping river adventures. Thrilling trips starting at ₹5,000!"}
+                      {cityIndex === 10 && "Conquer the mighty Himalayas and embrace the serenity of monasteries. Adventures begin at ₹20,000!"}
+                    </p>
                     </p>
                     <button
   onClick={() => {
