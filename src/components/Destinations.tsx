@@ -149,28 +149,37 @@ export function Destinations() {
 
       {/* India Carousel */}
       <div className="w-full px-4 mb-12">
-  {/* Add a container to control the size of the carousel */}
-  <div className="max-w-[90%] md:max-w-[80%] lg:max-w-[70%] xl:max-w-[60%] mx-auto">
-    <Slider {...citySliderSettings} ref={mainCarouselRef}>
-      {indiaPlaces[0].images.map((image, cityIndex) => (
-        <div key={cityIndex} className="relative p-4 md:p-6">
-          <div className="overflow-hidden rounded-lg shadow-lg bg-white">
-            <img
-              src={image}
-              alt={`Place ${indiaPlaces[0].placeNames[cityIndex]}`}
-              className="w-full h-[300px] md:h-[350px] lg:h-[300px] xl:h-[350px] 2xl:h-[400px] object-cover rounded-lg"
-            />
-          </div>
-          <p className="mt-3 text-center text-lg font-semibold text-gray-800">{indiaPlaces[0].placeNames[cityIndex]}</p>
-          <button className="mt-3 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-            Book Your Adventure
-          </button>
+        {/* Add a container to control the size of the carousel */}
+        <div className="max-w-[90%] md:max-w-[80%] lg:max-w-[70%] xl:max-w-[60%] mx-auto">
+          <Slider {...citySliderSettings} ref={mainCarouselRef}>
+            {indiaPlaces[0].images.map((image, cityIndex) => (
+              <div key={cityIndex} className="relative p-4 md:p-6">
+                <div className="overflow-hidden rounded-lg shadow-lg bg-white">
+                  <img
+                    src={image}
+                    alt={`Place ${indiaPlaces[0].placeNames[cityIndex]}`}
+                    className="w-full h-[300px] md:h-[350px] lg:h-[300px] xl:h-[350px] 2xl:h-[400px] object-cover rounded-lg"
+                  />
+                </div>
+                <p className="mt-3 text-center text-lg font-semibold text-gray-800">{indiaPlaces[0].placeNames[cityIndex]}</p>
+                <p className="mt-2 text-center text-md text-gray-600 font-light">
+                  {cityIndex === 0 && "Discover the charming cold, perfect for a family getaway in the lap of nature. Packages starting at ₹10,000!"}
+                  {cityIndex === 1 && "Adventure seekers will love the thrilling activities and stunning views. All-inclusive packages from ₹12,000!"}
+                  {cityIndex === 2 && "Relax on sun-kissed beaches with beachside shacks and lively nightlife. Starting at ₹8,000 per person!"}
+                  {cityIndex === 3 && "Sail through picturesque backwaters on traditional houseboats. Experience serenity for ₹15,000 per couple!"}
+                  {cityIndex === 4 && "Indulge in peaceful retreats amid lush tea gardens and rolling hills. Find packages from ₹9,000!"}
+                  {cityIndex === 5 && "Step into a world of royal architecture and vibrant culture. Explore Rajasthan from ₹11,000 per day!"}
+                  {cityIndex === 6 && "Feel the spiritual essence of India with historic temples and sacred rituals. Spiritual tours starting at ₹6,000!"}
+                  {cityIndex === 7 && "Immerse yourself in tropical paradise with white sand beaches and adventure sports. Explore Andaman from ₹18,000!"}
+                </p>
+                <button className="mt-3 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                  Book Your Adventure
+                </button>
+              </div>
+            ))}
+          </Slider>
         </div>
-      ))}
-    </Slider>
-  </div>
-</div>
-
+      </div>
 
       {/* Call-to-Action Section */}
       <div className="w-full px-4 py-8 text-center bg-blue-100 rounded-lg shadow-lg">
