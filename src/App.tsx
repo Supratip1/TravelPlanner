@@ -6,7 +6,7 @@ import { ItineraryPlanner } from './components/features/ItineraryPlanner';
 import { BookingSection } from './components/booking/BookingSection';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
+import { Footer } from './components/Footer';
 
 function App() {
   return (
@@ -14,10 +14,8 @@ function App() {
       <Navbar/>
       <main>
         <Hero />
-        
-         <section id="plan-trip">
-  <ItineraryPlanner />
-</section>
+        <Footer/>
+         
 {/* 
 <section id="booking">
   <BookingSection />
