@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaGlobe, FaMapMarkerAlt, FaCalendarAlt, FaPlane, FaPlay, FaPause, FaBars } from 'react-icons/fa'; // Import necessary icons
+import { FaGlobe, FaMapMarkerAlt, FaCalendarAlt, FaPlane, FaBars } from 'react-icons/fa'; // Import necessary icons
 import { NavLink } from './navbar/NavLink';
 import { MobileNav } from './navbar/MobileNav';
 import backgroundMusic from '../sound/bensound-sunny.mp3';
@@ -34,8 +34,10 @@ export function Navbar(): JSX.Element {
       {/* Audio element */}
       <audio ref={audioRef} src={backgroundMusic} loop muted={false} className="hidden" />
 
+      {/* Navbar container */}
       <nav
-        className={`relative w-full z-50 transition-all duration-300 ${
+        style={{ position: 'relative', zIndex: 50 }}
+        className={`w-full transition-all duration-300 ${
           isScrolled
             ? 'bg-purple-800 backdrop-blur-md shadow-sm'
             : 'bg-purple-900 backdrop-blur-sm'
@@ -78,8 +80,6 @@ export function Navbar(): JSX.Element {
                   Book
                 </span>
               </NavLink>
-
-              
             </div>
 
             {/* Mobile Menu Button */}
