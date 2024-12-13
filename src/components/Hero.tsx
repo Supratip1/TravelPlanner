@@ -1,17 +1,51 @@
 import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Compass } from 'lucide-react';
-import { Destinations } from './Destinations'; // Import the Destinations component
-import { ItineraryPlanner } from './features/ItineraryPlanner';
 
 export function Hero() {
-  const [typedText, setTypedText] = useState('');
-  const [showSubheading, setShowSubheading] = useState(false);
-  const heroRef = useRef(null);
+  const [typedText, setTypedText] = useState<string>('');
+  const [showSubheading, setShowSubheading] = useState<boolean>(false);
+  const [searchInput, setSearchInput] = useState<string>('');
+  const [budget, setBudget] = useState<string>('');
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
+  const [preferences, setPreferences] = useState<string[]>([]);
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+  const [startingPlace, setStartingPlace] = useState<string>('');
+  const [travelers, setTravelers] = useState<{ adults: number; kids: number }>({
+    adults: 0,
+    kids: 0,
+  });
 
-  // Updated heading and subheading text for an AI-focused travel service
-  const headingText = 'Your Dream Indian Vacation, Customized by AI';
-  const subheadingText = 'Discover the perfect travel deals personalized for you with the power of AI';
+  const heroRef = useRef<HTMLDivElement | null>(null);
+
+  const headingText: string = 'IndiaXplore';
+  const subheadingText: string = 'Instantly plan your dream trip with AI-driven recommendations, tailored just for you! Best Deals Guaranteed.';
+
+  const preferenceOptions = [
+    'Family-friendly',
+    'Romantic',
+    'Solo',
+    'Adventure',
+    'Luxury',
+    'Spiritual',
+    'Eco-friendly',
+    'Workations',
+    'Honeymoons',
+    'Destination Weddings',
+    'Couple Getaways',
+    'Content Creators',
+    'Food & Culinary Explorers',
+    'Historical & Heritage Seekers',
+    'Wellness & Spiritual Seekers',
+    'Nature & Wildlife Enthusiasts',
+    'Cultural Immersion & Local Traditions',
+    'Adventure & Extreme Sports',
+    'Luxury & Boutique Stays',
+    'Local Explorer & Hidden Gems',
+    'Volunteer & Community Service Travelers',
+    'Digital Nomads & Remote Workers',
+  ];
 
   // Typing animation for the heading
   useEffect(() => {
@@ -29,23 +63,60 @@ export function Hero() {
     }, 100);
 
     return () => clearInterval(typeInterval);
-  }, [headingText]);
+  }, []);
 
-  // Scroll handler for the buttons
-  const scrollToItineraryPlanner = () => {
-    const itinerarySection = document.getElementById('itinerary-planner');
-    if (itinerarySection) {
-      itinerarySection.scrollIntoView({ behavior: 'smooth' });
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchInput(e.target.value);
+  const handleBudgetChange = (e: React.ChangeEvent<HTMLInputElement>) => setBudget(e.target.value);
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => setStartDate(e.target.value);
+  const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => setEndDate(e.target.value);
+  const handleAdultsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value === '' ? 0 : parseInt(e.target.value, 10); // Convert to number if not empty
+    setTravelers((prev) => ({ ...prev, adults: value }));
+  };
+  
+  const handleKidsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value === '' ? 0 : parseInt(e.target.value, 10); // Convert to number if not empty
+    setTravelers((prev) => ({ ...prev, kids: value }));
+  };
+
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+
+  const handlePreferenceToggle = (preference: string) => {
+    setPreferences(prev =>
+      prev.includes(preference)
+        ? prev.filter(item => item !== preference)
+        : [...prev, preference]
+    );
+  };
+
+  const handleSearchSubmit = async () => {
+    console.log('Search submitted');
+    if (!searchInput || !budget || !startDate || !endDate || preferences.length === 0 || !startingPlace || !travelers) {
+      alert('Please fill out all fields.');
+      return;
+    }
+  
+    try {
+      const response = await axios.post('http://localhost:3001/api/trips', {
+        searchInput,
+        budget,
+        startDate,
+        endDate,
+        preferences,
+        startingPlace,
+        travelers,
+      });
+  
+      if (response.data) {
+        console.log('Itineraries:', response.data);
+      }
+    } catch (error) {
+      const errorMessage = error.response?.data || error.message || 'An unknown error occurred';
+      console.error('Error fetching itineraries:', errorMessage);
+      alert('Failed to fetch trips. Please try again.');
     }
   };
-  const scrollToDestination = () => {
-    const destinationSection = document.getElementById('destinations');
-    if (destinationSection) {
-      destinationSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
-  // Animation variants
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
@@ -53,92 +124,159 @@ export function Hero() {
 
   return (
     <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
-      {/* Hero Section */}
       <motion.div
         ref={heroRef}
-        className="relative w-full bg-gradient-to-br from-indigo-900 via-purple-900 to-violet-900 text-white overflow-hidden"
+        className="relative w-full min-h-screen bg-cover bg-center bg-opacity-100"
+        initial="hidden"
+        animate="visible"
+        variants={fadeInUp}
       >
-        {/* Background pattern */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-40 max-w-full"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent"></div>
-        </div>
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-opacity-100"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1446757981584-845b14aa7dd0?w=1600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjIwfHxpbmRpYSUyMG5vcnRoZWFzdHxlbnwwfHwwfHx8MA%3D%3D')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundBlendMode: 'lighten',
+          }}
+        ></div>
 
-        {/* Content */}
-        <div className="relative container mx-auto px-4 py-12 max-w-2xl text-center">
+        <div className="relative container mx-auto px-4 py-12 max-w-3xl text-center flex flex-col justify-center min-h-screen">
           <div className="space-y-6">
-            {/* Typing Animation for the Heading */}
             <motion.h1
-              className="text-4xl sm:text-5xl font-bold tracking-tight"
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8 }}
             >
               {typedText.split(' ').map((word, index) => (
-                <span key={index} className={`${index === 1 ? 'block sm:inline' : ''}`}>
+                <span key={index} className={index === 1 ? 'block sm:inline' : ''}>
                   {word}{' '}
                 </span>
               ))}
+              <br />
+              <span className="text-yellow-500 text-2xl sm:text-3xl lg:text-4xl">Best Deals & Unique Experiences</span>
             </motion.h1>
 
-            {/* Animate Subheading after Typing is Complete */}
             <AnimatePresence>
               {showSubheading && (
                 <motion.p
-                  className="text-lg text-gray-300 mx-auto"
+                  className="text-base sm:text-lg text-gray-300 mx-auto mb-6"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ duration: 0.6, ease: 'easeOut' }}
                 >
-                  {subheadingText}
+                  Instantly plan your dream trip with AI-driven recommendations that guarantee both{' '}
+                  <span className="text-yellow-500">best deals and unique experiences!</span>
                 </motion.p>
               )}
             </AnimatePresence>
           </div>
 
-          {/* CTA Buttons */}
-          <motion.div
-            className="flex justify-center gap-4 mt-6"
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-          >
-            <motion.button
-  className="group flex items-center gap-2 bg-white text-purple-900 px-4 py-2 text-sm sm:text-base sm:px-8 sm:py-4 rounded-full font-semibold hover:bg-opacity-90 transition-all"
-  onClick={scrollToDestination}
-  whileHover={{ scale: 1.05 }}
-  whileTap={{ scale: 0.95 }}
->
-  Popular Destinations
-  <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-</motion.button>
-<motion.button
-  className="group flex items-center gap-2 bg-white text-purple-900 px-4 py-2 text-sm sm:text-base sm:px-8 sm:py-4 rounded-full font-semibold hover:bg-opacity-90 transition-all"
-  onClick={scrollToItineraryPlanner}
-  whileHover={{ scale: 1.05 }}
-  whileTap={{ scale: 0.95 }}
->
-  <Compass className="w-5 h-5" />
-  Customize your own Trip
-</motion.button>
+          <div className="space-y-4">
+            <input
+              type="text"
+              className="w-full p-4 rounded-lg text-black focus:outline-none"
+              placeholder="Type your ideal trip and select preferences from the dropdown below..."
+              value={searchInput}
+              onChange={handleSearchChange}
+            />
+            
+            <input
+              type="text"
+              className="w-full p-4 rounded-lg text-black focus:outline-none"
+              placeholder="Starting Place"
+              value={startingPlace}
+              onChange={(e) => setStartingPlace(e.target.value)}
+            />
 
-          </motion.div>
+            <div className="relative">
+              <button
+                className="w-full bg-white text-black p-4 rounded-lg text-left"
+                onClick={toggleDropdown}
+              >
+                {preferences.length > 0
+                  ? `Selected Preferences: ${preferences.join(', ')}`
+                  : 'Select Travel Preferences'}
+              </button>
+              {dropdownOpen && (
+                <div className="absolute z-10 mt-2 bg-white text-black shadow-lg rounded-lg p-4 w-full max-h-64 overflow-y-auto">
+                  {preferenceOptions.map(option => (
+                    <label key={option} className="flex items-center space-x-2 py-1">
+                      <input
+                        type="checkbox"
+                        checked={preferences.includes(option)}
+                        onChange={() => handlePreferenceToggle(option)}
+                      />
+                      <span>{option}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <input
+              type="number"
+              className="w-full p-4 rounded-lg text-black focus:outline-none"
+              placeholder="Your Budget (in INR)"
+              value={budget}
+              onChange={handleBudgetChange}
+            />
+
+            <div className="flex gap-4">
+              <div className="w-full">
+                <input
+                  type="date"
+                  className="w-full p-4 rounded-lg text-black focus:outline-none"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  placeholder="Start Date"
+                />
+              </div>
+              <div className="w-full">
+                <input
+                  type="date"
+                  className="w-full p-4 rounded-lg text-black focus:outline-none"
+                  value={endDate}
+                  onChange={handleEndDateChange}
+                  placeholder="End Date"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="w-full">
+              <input
+  type="number"
+  className="w-full p-4 rounded-lg text-black focus:outline-none"
+  value={travelers.adults > 0 ? travelers.adults : ''}  // Display the value or empty string
+  onChange={handleAdultsChange}
+  placeholder="Number of Adults"
+/>
+
+              </div>
+              <div className="w-full">
+              <input
+  type="number"
+  className="w-full p-4 rounded-lg text-black focus:outline-none"
+  value={travelers.kids > 0 ? travelers.kids : ''}  // Display the value or empty string
+  onChange={handleKidsChange}
+  placeholder="Number of Kids"
+/>
+
+              </div>
+            </div>
+
+            <button
+              className="mt-4 bg-yellow-500 text-black p-4 rounded-lg w-full sm:w-auto sm:px-12"
+              onClick={handleSearchSubmit}
+            >
+              Find My Trip
+            </button>
+          </div>
         </div>
-
-        {/* Decorative elements */}
-        <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-purple-900 to-transparent"></div>
       </motion.div>
-
-      {/* Destinations Section */}
-      <div id="destinations" className="flex-1 w-full overflow-y-auto bg-gray-50">
-        <Destinations />
-      </div>
-
-      {/* Itinerary Planner Section */}
-      <div id="itinerary-planner" className="pb-16">
-        <ItineraryPlanner />
-      </div>
     </div>
   );
 }
