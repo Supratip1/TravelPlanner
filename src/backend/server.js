@@ -76,16 +76,76 @@ async function generateItinerary(destination, startDate, endDate, budget, prefer
       Create three distinct travel itineraries for ${destination} in India, starting from ${startingPlace}. Tailor them to the following preferences:
       ${preferencePrompts}
       Requirements:
+      - Structure the reply with bold headings for clarity. Reject special characters like asterisks and slash ie * and \.
       - Incorporate the preferences: Ensure activities, accommodations, food options, and experiences reflect the specified preferences.
       - Highlight offbeat places and hidden gems: Include lesser-known attractions, secluded locations, unique dining spots, and hidden stays.
       - Provide clear travel options: Suggest flight and train routes from the starting place to the destination.
       - Include a day-by-day breakdown: Detail daily activities, accommodation suggestions, food options, and travel logistics.
       - Differentiate the itineraries: Ensure that each itinerary offers unique experiences.
-      Structure the reply with bold headings for clarity. Avoid special characters like asterisks.
+      
     `;
 
     const result = await model.generateContent(prompt);
-    const itineraryText = result.response?.text ? await result.response.text() : result.text;
+    let itineraryText = result.response?.text ? await result.response.text() : result.text;
+
+   
+    
+    // Remove unwanted characters (*, \)
+    itineraryText = itineraryText
+      .replace(/\\/g, '')   // Remove all backslashes
+      .replace(/\*/g, '')   // Remove asterisks
+      .replace(/\n/g, '')   // Remove newline characters
+    
+
+    
+      function beautifyItinerary(text) {
+        // Remove Markdown formatting and extra backslashes
+        text = text
+          .replace(/\*\*/g, '')    // Remove bold markers
+          .replace(/\\/g, '')      // Remove backslashes
+          .replace(/\n+/g, ' ')    // Replace multiple newlines with a single space
+          .trim();
+        
+        // Split into sections
+        const sections = text.split(/(?=Day \d+:|Tips for)/);
+      
+        // Process each section
+        const beautifiedSections = sections.map(section => {
+          // Trim and filter out empty sections
+          section = section.trim();
+          if (!section) return '';
+      
+          // Split into sentences
+          let sentences = section
+            .split(/(?<=[.!?])\s+/)
+            .filter(sentence => sentence.trim().length > 0);
+      
+          // Process sentences
+          sentences = sentences.map(sentence => {
+            // Capitalize first letter
+            sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1).trim();
+      
+            // Add bullet point if not already present
+            return sentence.startsWith('•') ? sentence : `• ${sentence}`;
+          });
+      
+          // Join sentences with a single space to avoid newlines
+          return sentences.join(' ').trim();
+        });
+      
+        // Remove empty sections and join with double space
+        return beautifiedSections
+          .filter(section => section.trim().length > 0)
+          .join('  ') // Double space between sections
+          .trim();
+      }
+      
+      
+    
+    itineraryText = beautifyItinerary(itineraryText);
+
+
+// Split into sentences and format them properly
 
     return { itinerary: itineraryText };
 

@@ -14,8 +14,12 @@
     "axios": "^1.7.9",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
+    "dompurify": "^3.2.3",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "openai": "^4.76.1"
+  },
+  "devDependencies": {
+    "@types/dompurify": "^3.2.0"
   }
 }
