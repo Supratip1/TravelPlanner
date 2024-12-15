@@ -1,101 +1,104 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { FaGlobe, FaMapMarkerAlt, FaCalendarAlt, FaPlane, FaBars } from 'react-icons/fa'; // Import necessary icons
-import { NavLink } from './navbar/NavLink';
-import { MobileNav } from './navbar/MobileNav';
-import backgroundMusic from '../sound/bensound-sunny.mp3';
+import React, { useState } from 'react';
+import { Menu, X } from 'lucide-react';
 
-export function Navbar(): JSX.Element {
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState<boolean>(false);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.play();
-      } else {
-        audioRef.current.pause();
-      }
-    }
-  }, [isPlaying]);
+const Navbar: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <>
-      {/* Audio element */}
-      <audio ref={audioRef} src={backgroundMusic} loop muted={false} className="hidden" />
-
-      {/* Navbar container */}
-      <nav
-        style={{ position: 'fixed', top: 0, width: '100%', zIndex: 50 }}
-        className={`w-full transition-all duration-300 ${
-          isScrolled
-            ? 'bg-purple-800 backdrop-blur-md shadow-sm'
-            : 'bg-purple-900 backdrop-blur-sm'
-        }`}
-      >
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-14">
-            {/* Logo and Website Name */}
-            <div className="flex items-center gap-3">
-              <FaGlobe className="text-white w-6 h-6" />
-              <span className="text-white text-xl font-bold">DreamTravel</span>
-            </div>
-
-            {/* Desktop Navigation Links */}
-            <div className="hidden md:flex items-center gap-6 ml-auto">
-              <NavLink
-                href="#destinations"
-                className="text-white text-sm border-b-2 border-transparent hover:border-purple-500 hover:text-white transition duration-300"
-              >
-                <span className="flex items-center gap-2">
-                  <FaMapMarkerAlt className="w-4 h-4" />
-                  Destinations
-                </span>
-              </NavLink>
-              <NavLink
-                href="#plantrip"
-                className="text-white text-sm border-b-2 border-transparent hover:border-purple-500 hover:text-white transition duration-300"
-              >
-                <span className="flex items-center gap-2">
-                  <FaCalendarAlt className="w-4 h-4" />
-                  Plan Trip
-                </span>
-              </NavLink>
-              <NavLink
-                href="#booking"
-                className="text-white text-sm border-b-2 border-transparent hover:border-purple-500 hover:text-white transition duration-300"
-              >
-                <span className="flex items-center gap-2">
-                  <FaPlane className="w-4 h-4" />
-                  Book
-                </span>
-              </NavLink>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden relative p-2 text-white hover:text-gray-400 transition-colors"
-              onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
-              aria-label="Toggle mobile menu"
-            >
-              <FaBars className="w-5 h-5 text-white" />
-            </button>
+    <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
+      <div className="container mx-auto px-4 flex items-center justify-between h-16">
+        {/* Logo */}
+        <div className="flex items-center">
+          <div className="flex items-center space-x-2">
+            <img 
+              src="./src/components/travel.png" 
+              alt="Supratip Travel Logo" 
+              className="h-12 w-auto object-contain"
+            />
           </div>
         </div>
-      </nav>
 
-      {/* Mobile Navigation */}
-      <MobileNav isOpen={isMobileNavOpen} onClose={() => setIsMobileNavOpen(false)} />
-    </>
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex space-x-8 items-center">
+          <button
+            onClick={() => {
+              document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="text-black hover:text-gray-600 transition text-base"
+          >
+            Home
+          </button>
+          <button
+            onClick={() => {
+              document.getElementById('destinations')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="text-black hover:text-gray-600 transition text-base"
+          >
+            Destinations
+          </button>
+          <button
+            onClick={() => {
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="text-black hover:text-gray-600 transition text-base"
+          >
+            Contact
+          </button>
+          
+        </div>
+
+        {/* Mobile Menu Toggle */}
+        <div className="md:hidden flex items-center">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="text-black hover:text-gray-600 focus:outline-none"
+          >
+            {isMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="fixed top-16 left-0 w-full bg-white/95 backdrop-blur-md shadow-lg md:hidden">
+            <div className="container mx-auto px-4 py-4">
+              <button
+                onClick={() => {
+                  document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' });
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full text-left text-black hover:text-gray-600 transition mb-4 text-base"
+              >
+                Home
+              </button>
+              <button
+                onClick={() => {
+                  document.getElementById('destinations')?.scrollIntoView({ behavior: 'smooth' });
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full text-left text-black hover:text-gray-600 transition mb-4 text-base"
+              >
+                Destinations
+              </button>
+              <button
+                onClick={() => {
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full text-left text-black hover:text-gray-600 transition mb-4 text-base"
+              >
+                Contact
+              </button>
+              
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
   );
-}
+};
+
+export default Navbar;
